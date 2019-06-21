@@ -1,5 +1,9 @@
 package controller
 
+import "github.com/kataras/iris"
+
 type Container struct{}
 
-func (m *Container) Get() string { return "Container" }
+func (c *Container) ListsEndPoint(ctx iris.Context) {
+
+}

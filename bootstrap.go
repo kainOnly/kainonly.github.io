@@ -4,17 +4,24 @@ import (
 	"container-manager-server/controller"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/logger"
-	"github.com/kataras/iris/mvc"
 )
 
 func main() {
-	app := iris.New()
-	app.Logger().SetLevel("debug")
-	app.Use(logger.New())
+	App := iris.New()
+	App.Logger().SetLevel("debug")
+	App.Use(logger.New())
 
-	m := mvc.New(app.Party("/"))
-	m.Party("/image").Handle(new(controller.Image))
-	m.Party("/container").Handle(new(controller.Container))
+	Image := new(controller.Image)
+	ImageRouter := App.Party("/image")
+	{
+		ImageRouter.Get("lists", Image.ListsEndPoint)
+	}
 
-	app.Run(iris.Addr(":8080"), iris.WithoutServerError(iris.ErrServerClosed))
+	Container := new(controller.Container)
+	ContainerRouter := App.Party("/container")
+	{
+		ContainerRouter.Get("lists", Container.ListsEndPoint)
+	}
+
+	App.Run(iris.Addr(":8080"), iris.WithoutServerError(iris.ErrServerClosed))
 }

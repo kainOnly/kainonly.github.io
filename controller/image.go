@@ -1,5 +1,9 @@
 package controller
 
+import "github.com/kataras/iris"
+
 type Image struct{}
 
-func (m *Image) Get() string { return "Hey" }
+func (c *Image) ListsEndPoint(ctx iris.Context) {
+
+}
