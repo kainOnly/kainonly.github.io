@@ -10,12 +10,10 @@ import { NgZorroAntdModule, NZ_I18N, zh_CN } from 'ng-zorro-antd';
 registerLocaleData(zh);
 
 import { AppComponent } from './app.component';
-import { WorkspaceComponent } from './workspace/workspace.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    WorkspaceComponent,
   ],
   imports: [
     BrowserModule,

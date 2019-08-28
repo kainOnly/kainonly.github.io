@@ -1,30 +1,48 @@
 <nz-layout class="main-layout">
-  <ul class="header" nz-menu nzMode="horizontal">
-    <li nz-submenu nzTitle="工作区" nzIcon="dashboard">
-      <ul>
-        <li nz-menu-group nzTitle="Item 1">
-          <ul>
-            <li nz-menu-item>Option 1</li>
-            <li nz-menu-item>Option 2</li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-    <li style="float: right" nz-menu-item>
-      <i nz-icon nzType="close"></i>
-      退出
-    </li>
-    <li style="float: right" nz-menu-item>
-      <i nz-icon nzType="fullscreen"></i>
-      最大化
-    </li>
-  </ul>
+  <nz-content nz-row nzGutter="16">
+    <div class="panel" nz-col nzSpan="8">
+      <nz-card class="panel-card" [nzBordered]="false">
+        <nz-input-group style="margin-bottom: 1rem" [nzSuffix]="suffixIcon">
+          <input type="text" nz-input placeholder="Search" [(ngModel)]="search"/>
+        </nz-input-group>
+        <ng-template #suffixIcon>
+          <i nz-icon nzType="search"></i>
+        </ng-template>
 
-  <nz-layout>
-    <nz-layout class="inner-layout">
-      <nz-content class="content">
-        <app-workspace></app-workspace>
-      </nz-content>
-    </nz-layout>
-  </nz-layout>
+        <nz-tree
+          [nzData]="nodes"
+          [nzSearchValue]="search">
+        </nz-tree>
+      </nz-card>
+    </div>
+    <div class="panel" nz-col nzSpan="16">
+      <nz-card class="panel-card" [nzBordered]="false">
+        <nz-page-header nzTitle="STRING">
+          <nz-page-header-subtitle>
+
+            <a><i nz-icon nzType="edit"></i></a>
+          </nz-page-header-subtitle>
+
+          <nz-page-header-extra>
+            <button nz-button nzType="primary" nzSize="small">重载键值</button>
+            <button style="margin-left: 0.5rem" nz-button nzType="primary" nzSize="small">有效期</button>
+          </nz-page-header-extra>
+
+          <nz-page-header-content>
+            <p nz-paragraph nzCopyable [(nzContent)]="redisKey"></p>
+            <nz-select [(ngModel)]="type" nzAllowClear nzPlaceHolder="Choose">
+              <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
+              <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+              <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+            </nz-select>
+          </nz-page-header-content>
+
+          <nz-page-header-footer>
+            <button nz-button nzType="primary">保存</button>
+            <button style="margin-left: 0.5rem" nz-button nzType="danger">删除</button>
+          </nz-page-header-footer>
+        </nz-page-header>
+      </nz-card>
+    </div>
+  </nz-content>
 </nz-layout>
