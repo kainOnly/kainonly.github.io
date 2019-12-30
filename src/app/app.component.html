@@ -1,5 +1,53 @@
-<!-- NG-ZORRO -->
-<a href="https://github.com/NG-ZORRO/ng-zorro-antd" target="_blank"
-   style="display: flex;align-items: center;justify-content: center;height: 100%;width: 100%;">
-  <img height="300" src="https://img.alicdn.com/tfs/TB1X.qJJgHqK1RjSZFgXXa7JXXa-89-131.svg">
-</a>
+<nz-layout class="main">
+  <nz-header>
+    <div class="logo"></div>
+    <ul nz-menu nzTheme="dark" nzMode="horizontal" class="header-menu">
+      <li nz-menu-item nzSelected>
+        <i nz-icon nzType="dashboard"></i>
+        <span>控制台</span>
+      </li>
+      <li nz-menu-item>
+        <i nz-icon nzType="plus-circle"></i>
+        <span>创建 Redis 服务器</span>
+      </li>
+      <li nz-menu-item>
+        <i nz-icon nzType="plus-circle"></i>
+        <span>创建分组</span>
+      </li>
+      <li nz-menu-item>
+        <i nz-icon nzType="cluster"></i>
+        <span>服务器管理</span>
+      </li>
+    </ul>
+  </nz-header>
+  <nz-layout>
+    <nz-sider nzWidth="200px" nzTheme="light">
+      <ul nz-menu nzMode="inline" class="sider-menu">
+        <li nz-submenu nzOpen nzIcon="tags" nzTitle="自定义分组">
+          <ul>
+            <li nz-menu-item nzSelected>服务器A</li>
+            <li nz-menu-item>服务器B</li>
+            <li nz-menu-item>服务器C</li>
+            <li nz-menu-item>服务器D</li>
+          </ul>
+        </li>
+        <li nz-menu-item>
+          <i nz-icon nzType="tag"></i>
+          <span>服务器1</span>
+        </li>
+        <li nz-menu-item>
+          <i nz-icon nzType="tag"></i>
+          <span>服务器2</span>
+        </li>
+      </ul>
+    </nz-sider>
+    <nz-layout class="inner-layout">
+      <nz-breadcrumb>
+        <nz-breadcrumb-item>Home</nz-breadcrumb-item>
+        <nz-breadcrumb-item>List</nz-breadcrumb-item>
+        <nz-breadcrumb-item>App</nz-breadcrumb-item>
+      </nz-breadcrumb>
+      <nz-content>Content</nz-content>
+    </nz-layout>
+  </nz-layout>
+</nz-layout>
