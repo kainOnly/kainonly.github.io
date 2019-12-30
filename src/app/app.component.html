@@ -4,7 +4,7 @@
     <ul nz-menu nzTheme="dark" nzMode="horizontal" class="header-menu">
       <li nz-menu-item nzSelected>
         <i nz-icon nzType="dashboard"></i>
-        <span>控制台</span>
+        <span>仪表盘</span>
       </li>
       <li nz-menu-item>
         <i nz-icon nzType="plus-circle"></i>
@@ -14,10 +14,6 @@
         <i nz-icon nzType="plus-circle"></i>
         <span>创建分组</span>
       </li>
-      <li nz-menu-item>
-        <i nz-icon nzType="cluster"></i>
-        <span>服务器管理</span>
-      </li>
     </ul>
   </nz-header>
   <nz-layout>
@@ -25,29 +21,96 @@
       <ul nz-menu nzMode="inline" class="sider-menu">
         <li nz-submenu nzOpen nzIcon="tags" nzTitle="自定义分组">
           <ul>
-            <li nz-menu-item nzSelected>服务器A</li>
-            <li nz-menu-item>服务器B</li>
-            <li nz-menu-item>服务器C</li>
-            <li nz-menu-item>服务器D</li>
+            <li nz-menu-item nzSelected>服务器 A</li>
+            <li nz-menu-item>服务器 B</li>
+            <li nz-menu-item>服务器 C</li>
+            <li nz-menu-item>服务器 D</li>
           </ul>
         </li>
         <li nz-menu-item>
           <i nz-icon nzType="tag"></i>
-          <span>服务器1</span>
+          <span>服务器 1</span>
         </li>
         <li nz-menu-item>
           <i nz-icon nzType="tag"></i>
-          <span>服务器2</span>
+          <span>服务器 2</span>
         </li>
       </ul>
     </nz-sider>
     <nz-layout class="inner-layout">
       <nz-breadcrumb>
-        <nz-breadcrumb-item>Home</nz-breadcrumb-item>
-        <nz-breadcrumb-item>List</nz-breadcrumb-item>
-        <nz-breadcrumb-item>App</nz-breadcrumb-item>
+        <nz-breadcrumb-item>仪表盘</nz-breadcrumb-item>
+        <nz-breadcrumb-item>自定义分组</nz-breadcrumb-item>
+        <nz-breadcrumb-item>服务器 A</nz-breadcrumb-item>
       </nz-breadcrumb>
-      <nz-content>Content</nz-content>
+      <nz-content>
+        <div nz-row>
+          <div nz-col nzSpan="9">
+            <div class="operate-panel">
+              <nz-select class="select-database"
+                         [(ngModel)]="select"
+                         nz-tooltip
+                         nzTooltipTitle="请选择一个数据库"
+                         nzTooltipPlacement="topCenter">
+                <nz-option *ngFor="let v of database" [nzValue]="v" [nzLabel]="v"></nz-option>
+              </nz-select>
+
+              <button class="operate-btn"
+                      nz-button
+                      nzType="default">
+                <i nz-icon nzType="sync"></i>
+              </button>
+              <button class="operate-btn"
+                      nz-button
+                      nzType="default">
+                新增数据
+              </button>
+              <button class="operate-btn"
+                      nz-button
+                      nzType="danger"
+                      [disabled]="true">
+                批量删除
+              </button>
+              <button class="operate-btn"
+                      nz-button
+                      nzType="danger">
+                清空数据库
+              </button>
+            </div>
+
+            <nz-table #basicTable
+                      nzShowPagination
+                      [nzData]="listOfData">
+              <thead>
+              <tr>
+                <th nzWidth="50px" nzShowCheckbox></th>
+                <th nzWidth="80px">类型</th>
+                <th>键名</th>
+                <th nzWidth="180px" nzAlign="center">操作</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let data of basicTable.data">
+                <td nzShowCheckbox></td>
+                <td>{{data.type}}</td>
+                <td>{{data.key}}</td>
+                <td nzAlign="center">
+                  <a>
+                    <i nz-icon nzType="edit"></i> 编辑
+                  </a>
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <a>
+                    <i nz-icon nzType="delete"></i> 删除
+                  </a>
+                </td>
+              </tr>
+              </tbody>
+            </nz-table>
+          </div>
+          <div nz-col nzSpan="15">
+          </div>
+        </div>
+      </nz-content>
     </nz-layout>
   </nz-layout>
 </nz-layout>
