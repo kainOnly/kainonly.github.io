@@ -29,14 +29,14 @@ nz-breadcrumb {
 
 .operate-panel {
   margin-bottom: 16px;
+
+  button {
+    margin-left: 4px;
+  }
 }
 
-.select-database {
+.database-number {
   width: 100px;
-}
-
-.operate-btn {
-  margin-left: 4px;
 }
 
 .redis-key {

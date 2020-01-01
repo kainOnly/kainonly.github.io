@@ -49,7 +49,7 @@
                    [nzBordered]="false"
                    [nzExtra]="redisExtra">
             <div class="operate-panel">
-              <nz-select class="select-database"
+              <nz-select class="database-number"
                          [(ngModel)]="select"
                          nz-tooltip
                          nzTooltipTitle="请选择一个数据库"
@@ -57,20 +57,13 @@
                 <nz-option *ngFor="let v of database" [nzValue]="v" [nzLabel]="v"></nz-option>
               </nz-select>
 
-              <button class="operate-btn"
-                      nz-button
-                      nzType="default">
+              <button nz-button nzType="default">
                 <i nz-icon nzType="sync"></i>
               </button>
-              <button class="operate-btn"
-                      nz-button
-                      nzType="default">
+              <button nz-button nzType="default">
                 新增数据
               </button>
-              <button class="operate-btn"
-                      nz-button
-                      nzType="danger"
-                      [disabled]="true">
+              <button nz-button nzType="danger" [disabled]="true">
                 批量移除
               </button>
             </div>
@@ -101,7 +94,7 @@
                   <td>{{data.key}}</td>
                   <td nzAlign="center" nzRight="0px">
                     <a>
-                      <i nz-icon nzType="edit"></i>
+                      <i nz-icon nzType="profile"></i>
                     </a>
                     <nz-divider nzType="vertical"></nz-divider>
                     <a>
