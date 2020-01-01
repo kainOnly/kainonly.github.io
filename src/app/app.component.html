@@ -44,7 +44,7 @@
         <nz-breadcrumb-item>服务器 A</nz-breadcrumb-item>
       </nz-breadcrumb>
       <nz-content nz-row [nzGutter]="8">
-        <div nz-col [nzSpan]="10">
+        <div nz-col [nzSpan]="12">
           <nz-card nzTitle="服务器 A"
                    [nzBordered]="false"
                    [nzExtra]="redisExtra">
@@ -115,7 +115,7 @@
           </nz-card>
           <ng-template #redisExtra>
             <a nz-dropdown [nzDropdownMenu]="operateMore">
-              <i nz-icon nzType="ellipsis"></i>
+              <i nz-icon nzType="tool"></i>
             </a>
             <nz-dropdown-menu #operateMore>
               <ul nz-menu>
@@ -131,7 +131,8 @@
             </nz-dropdown-menu>
           </ng-template>
         </div>
-        <div nz-col [nzSpan]="14">
+
+        <div nz-col [nzSpan]="12">
           <nz-card nzTitle="键名: buy-source"
                    [nzBordered]="false"
                    [nzExtra]="operateExtra">
