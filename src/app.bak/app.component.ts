@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
 import { NzResizeEvent } from 'ng-zorro-antd/resizable';
 
 @Component({
@@ -6,8 +6,7 @@ import { NzResizeEvent } from 'ng-zorro-antd/resizable';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-  code = `{"name":"kain"}`;
+export class AppComponent implements OnInit, AfterViewInit {
   select = 0;
   database = [];
   listOfData = [
@@ -29,20 +28,24 @@ export class AppComponent implements OnInit {
   scrollHeight = 0;
 
   ngOnInit(): void {
-    this.setScrollHeight();
+    // this.setScrollHeight();
     for (let i = 0; i < 10; i++) {
       this.database.push(i);
     }
   }
 
-  @HostListener('window:resize')
-  windowOnResize() {
-    this.setScrollHeight();
+  ngAfterViewInit(): void {
+
   }
 
-  private setScrollHeight() {
-    this.scrollHeight = window.innerHeight - 225;
-  }
+  // @HostListener('window:resize')
+  // windowOnResize() {
+  //   this.setScrollHeight();
+  // }
+  //
+  // private setScrollHeight() {
+  //   this.scrollHeight = window.innerHeight - 225;
+  // }
 
   onResize({ col }: NzResizeEvent): void {
     cancelAnimationFrame(this.id);

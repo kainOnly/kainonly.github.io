@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { registerLocaleData } from '@angular/common';
@@ -13,8 +12,6 @@ registerLocaleData(zh);
 
 import { AppComponent } from './app.component';
 
-const routes: Routes = [];
-
 @NgModule({
   declarations: [
     AppComponent
@@ -25,8 +22,7 @@ const routes: Routes = [];
     FormsModule,
     HttpClientModule,
     NgZorroAntdModule,
-    NzResizableModule,
-    RouterModule.forRoot(routes, { useHash: true })
+    NzResizableModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: zh_CN }
