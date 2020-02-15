@@ -33,7 +33,23 @@
               }
             ],
             "styles": [
-              "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
+              "./node_modules/ng-zorro-antd/style/index.min.css",
+              "./node_modules/ng-zorro-antd/icon/style/index.min.css",
+              "./node_modules/ng-zorro-antd/button/style/index.min.css",
+              "./node_modules/ng-zorro-antd/grid/style/index.min.css",
+              "./node_modules/ng-zorro-antd/layout/style/index.min.css",
+              "./node_modules/ng-zorro-antd/breadcrumb/style/index.min.css",
+              "./node_modules/ng-zorro-antd/dropdown/style/index.min.css",
+              "./node_modules/ng-zorro-antd/menu/style/index.min.css",
+              "./node_modules/ng-zorro-antd/page-header/style/index.min.css",
+              "./node_modules/ng-zorro-antd/input/style/index.min.css",
+              "./node_modules/ng-zorro-antd/select/style/index.min.css",
+              "./node_modules/ng-zorro-antd/descriptions/style/index.min.css",
+              "./node_modules/ng-zorro-antd/table/style/index.min.css",
+              "./node_modules/ng-zorro-antd/tag/style/index.min.css",
+              "./node_modules/ng-zorro-antd/divider/style/index.min.css",
+              "./node_modules/ng-zorro-antd/tooltip/style/index.min.css",
+              "./node_modules/ng-zorro-antd/resizable/style/index.min.css",
               "src/styles.scss"
             ],
             "scripts": []
