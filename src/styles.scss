@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~ng-zorro-antd/resizable/style/index.min.css";
+
+* {
+  border-radius: 0 !important;
+}
+
+.ant-table-small > .ant-table-content > .ant-table-body {
+  margin: 0;
+}
