@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NZ_I18N, zh_CN, NgZorroAntdModule } from 'ng-zorro-antd';
 import { NzResizableModule } from 'ng-zorro-antd/resizable';
 import zh from '@angular/common/locales/zh';
+import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 registerLocaleData(zh);
 
@@ -26,6 +27,7 @@ const routes: Routes = [];
     HttpClientModule,
     NgZorroAntdModule,
     NzResizableModule,
+    MonacoEditorModule.forRoot(),
     RouterModule.forRoot(routes, { useHash: true })
   ],
   providers: [

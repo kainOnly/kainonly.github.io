@@ -113,9 +113,7 @@
             <a>移除</a>
           </nz-descriptions-item>
           <nz-descriptions-item nzTitle="键值" [nzSpan]="3">
-            <nz-code-editor class="editor"
-                            [ngModel]="code"
-                            [nzEditorOption]="{ language: 'json' }"></nz-code-editor>
+            <ngx-monaco-editor [options]="{ language: 'json' }" [(ngModel)]="code"></ngx-monaco-editor>
           </nz-descriptions-item>
         </nz-descriptions>
       </div>
