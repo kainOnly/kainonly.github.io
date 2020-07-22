@@ -1,0 +1,6 @@
+{
+  "name": "ngx-bit-doc",
+  "scripts": {
+    "start": "docsify serve"
+  }
+}
