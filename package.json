@@ -1,6 +1,7 @@
 {
   "name": "ngx-bit-doc",
   "scripts": {
-    "start": "docsify serve"
+    "start": "docsify serve",
+    "deploy": "python deploy.py"
   }
 }
