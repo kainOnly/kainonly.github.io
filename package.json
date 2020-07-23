@@ -2,8 +2,5 @@
   "name": "ngx-bit-doc",
   "scripts": {
     "start": "docsify serve"
-  },
-  "dependencies": {
-    "docsify-tabs": "^1.4.3"
   }
 }

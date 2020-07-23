@@ -2,7 +2,7 @@
 
 易用的 Angular 辅助层框架
 
-[![npm](https://img.shields.io/npm/v/ngx-bit.svg?style=flat-square)](https://ngx-bit.kainonly.com)
+[![npm](https://img.shields.io/npm/v/ngx-bit/v8-lts.svg?style=flat-square)](https://ngx-bit.kainonly.com/v/8)
 [![Downloads](https://img.shields.io/npm/dm/ngx-bit.svg?style=flat-square)](https://www.npmjs.com/package/ngx-bit)
 [![npm](https://img.shields.io/npm/dt/ngx-bit.svg?style=flat-square)](https://www.npmjs.com/package/ngx-bit)
 [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-blue.svg?style=flat-square)](https://www.typescriptlang.org/)
@@ -324,8 +324,10 @@ export class AppComponent implements OnInit {
 
 ```json
 {
-  "start": "ng serve",
-  "build": "ng build --prod",
+  "start": "ng serve --port 4000",
+  "serve:open": "ng serve --host 0.0.0.0 --port 4000 --disableHostCheck",
+  "build": "ng build --prod --buildOptimizer",
+  "server": "http-server -p 4000 -c-1 dist/exercise",
   "lint": "ng lint"
 }
 ```
