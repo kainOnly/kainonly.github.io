@@ -1,12 +1,10 @@
-- 公共服务
-  - [ConfigService 环境配置](common/config-service)
+- 服务
+  - [BitConfigService 环境配置](common/config-service)
   - [BitService 助手工具](common/bit-service)
-  - [HttpService 请求处理](common/http-service)
-  - [EventsService 状态管理](common/events-service)
-
-- 插件扩展
-  - [StorageService 本地存储](plugin/storage-service)
-  - [SwalService 提示框](plugin/swal-service)
+  - [BitEventsService 通讯通讯](common/events-service)
+  - [BitHttpService 请求处理](common/http-service)
+  - [BitSupportService 功能支持](common/support-service)
+  - [BitSwalService 提示确认](common/swal-service)
 
 - 组件
   - [bit-i18n-switch 多语言切换器](component/bit-i18n-switch)
@@ -27,20 +25,21 @@
   - [bitUpload 上传](directive/bit-upload)
 
 - 管道
-  - [Defined 定义](pipe/defined)
   - [Undefined 未定义](pipe/undefined)
   - [EmptyArray 空数组](pipe/empty-array)
   - [EmptyObject 空对象](pipe/empty-object)
-  - [ObjectToArray 对象转数组](pipe/object-to-array)
-  - [ObjectToMap 对象转Map对象](pipe/object-to-map)
-  - [Locale 语言包显示](pipe/locale)
-  - [JSONParse JSON字符串转数组](pipe/json-parse)
   - [Split 字符串分割为数组](pipe/split)
   - [Join 数组拼接为字符串](pipe/join)
+  - [Locale 语言包显示](pipe/locale)
+  - [JSONParse JSON字符串转数组](pipe/json-parse)
+  - [Privacy 字符串脱敏](pipe/privacy)
 
-- 操作
-  - [asyncValidator 异步验证器](operate/async-validator)
+- 操作库
   - [emptyArray 判断空数组](operate/empty-array)
   - [emptyObject 判断空对象](operate/empty-object)
-  - [objectToArray 对象转数组](operate/object-to-array)
-  - [objectToMap 对象转Map对象](operate/object-to-map)
+  - [asyncValidator 异步验证器](operate/async-validator)
+  - [factoryBitConfig 生产配置](operate/factory-bit-config)
+  - [factoryLocales 生产语言包](operate/factory-locales)
+  - [getQuerySchema 获取Query](operate/get-query-schema)
+  - [getSelectorFormUrl 获取selector](operate/get-selector-for-url)
+  - [validate JSONSchema验证](operate/validate)
