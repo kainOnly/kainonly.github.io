@@ -4,7 +4,7 @@
   - [BitEventsService 组件通讯](common/bit-events-service)
   - [BitHttpService 请求处理](common/bit-http-service)
   - [BitSupportService 功能支持](common/bit-support-service)
-  - [BitSwalService 提示确认](common/swal-service)
+  - [BitSwalService 提示确认](common/bit-swal-service)
 
 - 组件
   - [bit-i18n-switch 多语言切换器](component/bit-i18n-switch)
