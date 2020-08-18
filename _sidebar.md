@@ -6,6 +6,9 @@
   - [BitSupportService 功能支持](common/bit-support-service)
   - [BitSwalService 提示确认](common/bit-swal-service)
 
+- 生产
+  - [ListByPage 分页列表](factory/list-by-page)
+
 - 组件
   - [bit-i18n-switch 多语言切换器](component/bit-i18n-switch)
   - [bit-i18n-tooltip 多语言提示](component/bit-i18n-tooltip)
