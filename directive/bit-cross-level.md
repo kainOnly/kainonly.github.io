@@ -1,5 +1,7 @@
 ## bitCrossLevel 跨级跳转
 
+待更新
+
 - **@Input() bitCrossLevel** `string` 跨级路由名称
 - **@Input() bitTrigger** `click|touch` 触发方式，默认 `click`
 

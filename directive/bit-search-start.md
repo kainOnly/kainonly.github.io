@@ -1,5 +1,7 @@
 ## bitSearchStart 搜索触发
 
+待更新
+
 - **@Input() bitSearchStart** `string` 搜索命名
 - **@Input() variable** `object` 局部搜索变量
 - **@Output() after** `EventEmitter< any >` 开始搜索之后

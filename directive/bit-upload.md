@@ -1,6 +1,6 @@
 ## bitUpload 上传
 
-关联辅助配置，在上传组件中加入属性指令
+待更新
 
 ```html
 <nz-upload nzName="image" bitUpload

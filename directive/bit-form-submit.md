@@ -1,5 +1,7 @@
 ## bitFormSubmit 表单提交
 
+待更新
+
 - **@Output() bitFormSubmit** `EventEmitter< any >` 监听表单提交
 
 在表单中使用

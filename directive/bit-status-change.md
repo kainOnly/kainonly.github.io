@@ -1,5 +1,7 @@
 ## bitStatusChange 状态切换
 
+待更新
+
 - **@Input() bitStatusChange** `Observable< any >` 状态切换请求
 - **@Input() bitControl** `boolean` 是否手动处理返回提示，默认 `false`
 - **@Output() response** `EventEmitter< any >` 获取请求的响应值

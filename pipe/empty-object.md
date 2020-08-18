@@ -6,7 +6,7 @@
 {{ value_expression | EmptyObject }}
 ```
 
-- **value** `any` 对象
+- **value_expression** `any` 对象
 - **Return** `boolean`
 
 假设存在一个空对象 `data`

@@ -1,6 +1,6 @@
 ## bitI18nUpdate 多语言联动验证
 
-在表单中使用
+待更新
 
 ```html
 <nz-form-item formGroupName="name">

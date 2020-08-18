@@ -1,6 +1,6 @@
 ## bitCol 栅格标识
 
-在表单中使用
+待更新
 
 ```html
 <nz-form-item>

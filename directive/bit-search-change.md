@@ -1,5 +1,7 @@
 ## bitSearchChange 搜索监听
 
+待更新
+
 - **@Input() bitSearchChange** `string` 搜索命名
 - **@Input() variable** `object` 局部搜索变量
 - **@Output() after** `EventEmitter< any >` 搜索变动之后

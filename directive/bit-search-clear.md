@@ -1,5 +1,7 @@
 ## bitSearchClear 搜索清除
 
+待更新
+
 - **@Input() bitSearchClear** `string` 搜索命名
 - **@Input() variable** `object` 局部搜索变量
 - **@Input() reset** `any` 清除重置的数值

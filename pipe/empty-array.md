@@ -6,7 +6,7 @@
 {{ value_expression | EmptyArray }}
 ```
 
-- **value** `any[]` 数组
+- **value_expression** `any[]` 数组
 - **Return** `boolean`
 
 假设存在一个空数组 `lists`

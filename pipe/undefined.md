@@ -6,7 +6,7 @@
 {{ value_expression | Undefined }}
 ```
 
-- **value** `any` 数值
+- **value_expression** `any` 数值
 - **Return** `boolean`
 
 假设存在一个未定义变量 `data`

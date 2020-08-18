@@ -1,5 +1,7 @@
 ## bitOpen 路由跳转
 
+待更新
+
 - **@Input() bitOpen** `any[]` 路由跳转处理，`path[0]` 为基础地址，索引大于0则为参数，例如：`['app-edit',1]` 等价于 routerlink 的 `{app-edit}/1`，但包含跨级路由处理
 - **@Input() extras** `NavigationExtras` 修改导航策略的选项
 - **@Input() bitTrigger** `click|touch` 触发方式，默认 `click`

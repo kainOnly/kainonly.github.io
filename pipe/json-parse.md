@@ -1,32 +1,39 @@
-## JSONParse JSON字符串转数组
+## JSONParse 字符串转对象
 
-#### @Pipe({name: 'JSONParse'})
+通过管道字符串转对象，字符串必须为json数据
 
-```typescript
-@Pipe({name: 'JSONParse'})
-export class JsonParsePipe implements PipeTransform {
-  transform(value: string, chkey?: any): any {
-    try {
-      return chkey !== undefined ? JSON.parse(value)[chkey] : JSON.parse(value);
-    } catch (e) {
-      return {};
-    }
-  }
-}
+```
+{{ value_expression | JSONParse }}
 ```
 
-- **value** `string` JSON字符串
-- **chkey** `string` 子键
+- **value_expression** `string` JSON字符串
+- **Return** `any`
 
-例如，在接口直接返回JSON字符串数组
+有时数据并不是那么友好，例如返回的字段中JSON为字符串
 
 ```typescript
-const data = `{"name":"bit","version":1}`;
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-welcome',
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.scss']
+})
+export class WelcomeComponent implements OnInit {
+  lists: any = [
+    { id: 1, extra: '{"ttl":3600,"on":true,"plus":20}' },
+    { id: 2, extra: '{"ttl":1800,"on":false,"plus":10}' }
+  ];
+
+  ngOnInit(): void {
+  }
+}
 ```
 
 在这种情况下直接使用管道可以减少遍历处理
 
 ```html
-<p>{{data|JSONParse:name}}</p>
-<!-- display bit -->
+<ng-container *ngFor="let x of lists">
+  <p>{{(x.extra|JSONParse)['ttl']}}</p>
+</ng-container>
 ```

@@ -1,29 +1,37 @@
 ## Split 字符串分割为数组
 
-#### @Pipe({name: 'Split'})
+通过管道使用字符串分割为数组
 
-```typescript
-@Pipe({name: 'Split'})
-export class SplitPipe implements PipeTransform {
-  transform(text: string, symbol: string): string[] {
-    return text.split(symbol);
-  }
-}
+```
+{{ value_expression | Split: symbol }}
 ```
 
-- **text** `string` 字符串
+- **value_expression** `string` 字符串
 - **symbol** `string` 分割符号
 - **Return** `string`
 
-例如，在一些场景下存在字符串
+假设存在一个字符串集合 `text`
 
 ```typescript
-const str = 'a1|b2|c3';
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-welcome',
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.scss']
+})
+export class WelcomeComponent implements OnInit {
+  text = '1|2|3|4|5|6';
+
+  ngOnInit(): void {
+  }
+}
 ```
 
 那么可以通过该管道进行字符串分割
 
 ```html
-<p>{{(str|Split:'|')[0]}}</p>
-<!-- display a1 -->
+<ng-container *ngFor="let val of text|Split:'|'">
+  <p>{{val}}</p>
+</ng-container>
 ```

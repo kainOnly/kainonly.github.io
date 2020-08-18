@@ -31,7 +31,7 @@
   - [Split 字符串分割为数组](pipe/split)
   - [Join 数组拼接为字符串](pipe/join)
   - [Locale 语言包显示](pipe/locale)
-  - [JSONParse JSON字符串转数组](pipe/json-parse)
+  - [JSONParse 字符串转对象](pipe/json-parse)
   - [Privacy 字符串脱敏](pipe/privacy)
 
 - 生产
