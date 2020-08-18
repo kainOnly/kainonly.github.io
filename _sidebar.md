@@ -3,7 +3,7 @@
   - [BitService 助手工具](common/bit-service)
   - [BitEventsService 组件通讯](common/bit-events-service)
   - [BitHttpService 请求处理](common/bit-http-service)
-  - [BitSupportService 功能支持](common/support-service)
+  - [BitSupportService 功能支持](common/bit-support-service)
   - [BitSwalService 提示确认](common/swal-service)
 
 - 组件
