@@ -1,5 +1,5 @@
 - 服务
-  - [BitConfigService 统一配置](common/config-service)
+  - [BitConfigService 统一配置](common/bit-config-service)
   - [BitService 助手工具](common/bit-service)
   - [BitEventsService 通讯通讯](common/events-service)
   - [BitHttpService 请求处理](common/http-service)

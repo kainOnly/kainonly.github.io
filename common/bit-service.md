@@ -1,34 +1,53 @@
 ## BitService 助手工具
 
-助手工具是运用在组件中的主要载体
+BitService 是辅助架构中的助手工具，以下示例中 `bit` 为 `BitService` 服务的注入命名
 
-#### static: string
+## Property
 
-静态资源地址，例如 `[src]="bit.static+'any.jpg'"`
+`BitService` 服务所包含以下属性：
 
-#### uploads: string
+| 属性          | 说明                 | 类型                | 默认值 |
+| ------------- | -------------------- | ------------------- | ------ |
+| `static`      | 静态资源地址         | `string`            | `''`   |
+| `uploads`     | 组合后的统一上传路径 | `string`            | `''`   |
+| `locale`      | 多语言标识           | `string`            | `''`   |
+| `l`           | 语言包索引           | `object`            | `{}`   |
+| `i18n`        | 多语言输入标识       | `string`            | `''`   |
+| `i18nTooltip` | 多语言输入提示       | `I18nTooltipOption` | `{}`   |
+| `i18nContain` | 多语言输入类型集合   | `string[]`          | `[]`   |
 
-上传地址, 可以在upload组件上调用 `[nzAction]="bit.uploads"`
+- `uploads` 为组合后的统一上传路径（即接口地址+统一上传路径），通常可以直接使用在 `nz-upload` 组件中
 
-#### locale: string
+```html
+<!-- 使用在nzAction -->
+<nz-upload 
+    nzName="image"
+    [nzAction]="bit.uploads"
+    [nzWithCredentials]="config.api.withCredentials"
+    [nzSize]="5120"
+    [nzShowUploadList]="false">
+</nz-upload>
+<!-- 使用更简洁的方式实现相同定义 -->
+<nz-upload 
+    nzName="image"
+    bitUpload
+    [nzShowUploadList]="false">
+</nz-upload>
+```
 
-语言包标识, 默认 `zh_cn`，例如 `{{name[bit.locale]}}`
+- `locale` 为当前多语言标识状态通常使用在 `LocalePipe`，例如：
 
-#### l: any
+```html
+{{name|Locale:bit.locale}}
+```
 
-语言包索引，默认 `{}`, 在完成定义语言包之后可直接使用 `l` 获取相关语言，`{{bit.l['name']}}`
+- `l` 为语言包索引，在组件完成语言包注册后可在模板中使用，例如：
 
-#### i18n: string
+```html
+{{bit.l['dashboards']}}
+```
 
-多语言输入组件当前标识
-
-#### i18nTooltip: object | I18nTooltipOptions
-
-多语言输入组件 Tooltip 验证提示
-
-#### i18nContain: any[]
-
-多语言输入组件标识数组
+- `i18nContain` 为多语言输入类型集合，通常可以用来筛选多语言输入的ID，例如：
 
 ```html
 <nz-form-item formGroupName="name">
@@ -36,383 +55,244 @@
         {{bit.l['name']}}
     </nz-form-label>
     <ng-container *ngFor="let x of bit.i18nContain">
-    <nz-form-control *ngIf="bit.equalI18n(x)" 
-                     bitFormControlCol 
-                     nzHasFeedback>
-        <input nz-input 
-               [placeholder]="bit.l['namePlaceholder']"
-               [formControlName]="x"/>
+    <nz-form-control 
+        *ngIf="bit.equalI18n(x)" 
+        bitFormControlCol 
+        nzHasFeedback>
+        <input 
+            nz-input 
+            [formControlName]="x"
+        />
     </nz-form-control>
     </ng-container>
 </nz-form-item>
 ```
 
-#### title: string
+## Method
 
-当前路由名称，例如 `<nz-card [nzTitle]="bit.title"></nz-card>`
+`BitService` 服务所包含以下方法：
 
-#### breadcrumb: any[]
+### open(urlTree: any[], extras?: NavigationExtras)
 
-面包屑数组
-
-```html
- <nz-breadcrumb [nzSeparator]="breadcrumbIcon">
-    <ng-template #breadcrumbIcon>
-        <i nz-icon type="right"></i>
-    </ng-template>
-    <nz-breadcrumb-item>
-        <a routerLink="/">{{bit.l['dashboard']}}</a>
-    </nz-breadcrumb-item>
-    <nz-breadcrumb-item *ngFor="let x of bit.breadcrumb;last as islast">
-        <ng-container *ngIf="islast;else notLast">{{x.name|Locale:bit.locale}}</ng-container>
-            <ng-template #notLast>
-                <a *ngIf="x.router;else notRouterlink" [bitCrossLevel]="x.key">
-                    {{x.name|Locale:bit.locale}}
-                </a>
-            <ng-template #notRouterlink>{{x.name|Locale:bit.locale}}</ng-template>
-        </ng-template>
-    </nz-breadcrumb-item>
-</nz-breadcrumb>
-```
-
-#### breadcrumbTop: any
-
-面包屑默认最高级，默认 `0`
-
-#### navActive: any[]
-
-被激活的导航数组
-
-```html
-<ul nz-menu
-    [nzTheme]="'dark'"
-    [nzInlineCollapsed]="collapsed"
-    [nzMode]="collapsed?'vertical':'inline'">
-    <ng-container *ngTemplateOutlet="navTpl; context: {$implicit: navLists}"></ng-container>
-    <ng-template #navTpl let-navs>
-        <ng-container *ngFor="let x of navs">
-            <ng-container *ngIf="x.router;else notRouter">
-                <li nz-menu-item
-                    [nzSelected]="bit.navActive.indexOf(x.key)!==-1"
-                    [bitOpen]="[x.key]">
-                        <i nz-icon [type]="x.icon"></i>
-                        <span class="nav-text">{{x.name|Locale:bit.locale}}</span>
-                </li>
-            </ng-container>
-            <ng-template #notRouter>
-            <li nz-submenu [nzOpen]="bit.navActive.indexOf(x.key)!==-1">
-                <span title><i nz-icon [type]="x.icon"></i><span>{{x.name|Locale:bit.locale}}</span></span>
-                <ul>
-                    <ng-container *ngTemplateOutlet="navTpl; context: {$implicit: x.children}"></ng-container>
-                </ul>
-            </li>
-            </ng-template>
-        </ng-container>
-    </ng-template>
-</ul>
-```
-
-#### search: Search | object = {};
-
-搜索字段集合
-
-- **search** `Search` 搜索字段集合
-  - **< field : string >** `SearchOptions`
-    - **field** `string` 搜索字段名称
-    - **op** `string` 判断类型, 模糊搜索为 `like`,准确搜索为 `=`
-    - **value** `any` 搜索值
-
-#### listsLoading: boolean
-
-列表正在加载状态, 使用在表格或列表组件中 `[nzLoading]="bit.listsLoading"`
-
-#### pageLimit: number
-
-分页，默认为配置服务 `pageLimit` 的值, 使用在表格或列表组件中，` [nzPageSize]="bit.pageLimit"`
-
-#### listsTotals: number
-
-列表数据总数, `listsTotals` 是由分页列表请求对象自动获取，`[nzTotal]="bit.listsTotals"`
-
-#### listsPageIndex: number
-
-分页索引页, `listsPageIndex` 是个双向绑定属性，可以通过外部去更改分页索引，` [(nzPageIndex)]="bit.lists_page_index"`
-
-#### listsAllChecked: boolean
-
-列表选项框状态为全选, `nzChecked` 是一个双向绑定属性，当全选选择框被动触发改变时，通过它的 `modelChange` 将同步其他数据的选择框状态：
-
-```html
-<th nzShowCheckbox
-    [(nzChecked)]="bit.listsAllChecked">
-</th>
-```
-
-#### listsIndeterminate: boolean
-
-列表选项框状态为不完整选择, `nzIndeterminate` 是不完整选择属性，当符合条件时，表头全选选择框将变为该状态：
-
-```html
-<th nzShowCheckbox
-    [nzIndeterminate]="bit.listsIndeterminate">
-</th>
-```
-
-#### listsDisabledAction: boolean
-
-列表操作板显示状态, 可在需要的标签中使用，已被选中的总数为 `0` 时，`listsDisabledAction=true`
-
-```html
-<button nz-button [disabled]="bit.listsDisabledAction" nzType="primary">
-    执行选中的
-</button>
-```
-
-#### listsCheckedNumber: number
-
-列表选项框选择数量, 显示已被选中的总数：
-
-```html
-<p>{{bit.listsCheckedNumber}}</p>
-```
-
-#### open(urlTree: any[], extras?: NavigationExtras)
-
-路由跳转处理，`urlTree[0]` 为基础地址，索引大于0则为参数，例如：`['app-edit',1]` 等价于 routerlink 的 `{app-edit}/1`，但包含跨级路由处理
+`navigate` 路由导航的扩展，为跨级导航作为基础持久记录其路由参数
 
 - **urlTree** `any[]` urlTree
 - **extras** `NavigationExtras` 修改导航策略的选项
 
-#### crossLevel(selector: string)
-
-路由跨级处理，通过使用open函数进行路由跳转会自动存储多级的路由参数，因此在跨越多级的跳转情况下可使用 `crossLevel` 可实现自动返回跨级，例如面包屑
-
-- **selector** `string` 作用域
-
-```html
-<nz-breadcrumb-item *ngFor="let x of bit.breadcrumb;last as islast">
-<ng-container *ngIf="islast;else notLast">{{x.name}}</ng-container>
-    <ng-template #notLast>
-        <a *ngIf="x.routerlink;else notRouterlink" [bitCrossLevel]="x.routerlink">
-            {{x.name}}
-        </a>
-        <ng-template #notRouterlink>{{x.name}}</ng-template>
-    </ng-template>
-</nz-breadcrumb-item>
+```typescript
+bit.open(['admin-edit', 1]);
 ```
 
-#### back()
+### crossLevel(selector: string)
 
-返回上一级
+路由跨级导航，当执行跨越导航时没有更好的方式记录其参数，此时配合 `open` 与 `crossLevel` 就能解决问题，例如：
 
-#### setLocale(locale: 'zh_cn' | 'en_us')
+- **selector** `string` 路由标签
 
-设置语言包标识
+```typescript
+// 假设导航至/{team-index}/1
+bit.open(['team-index', 1]);
+// 再从/{team-index}/1导航至/{team-index}/1/services/T100
+bit.open(['team-index', 1, 'services', 'T100'])
+// 此时使用crossLevel，可导航至/{team-index}/1
+bit.crossLevel('team-index');
+```
+
+!> 当然这种场景是极少的，返回上一级有时可以解决问题，但特殊的面包屑就需要使用跨级导航，因此不建议采用这么深的层级构建导航路径
+
+### back()
+
+返回上一级，并重置 `i18n` 多语言输入标识
+
+```typescript
+// 导航至/{admin-index}
+bit.open(['admin-index']);
+// 再从/{admin-index}导航至/{admin-edit}/1
+bit.open(['admin-edit', 1]);
+// 返回至/{admin-index}
+bit.back();
+```
+
+### registerLocales(packer: Promise< any >)
+
+局部注册语言包，将局部语言包加工与公共语言包合并，再提供给 `bit.l`，通常文件定义在组件内 `language.ts`
+
+- **packer** `Promise< any >` 导入的语言包文件
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { BitService } from 'ngx-bit';
+
+@Component({
+  selector: 'app-welcome',
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.scss']
+})
+export class WelcomeComponent implements OnInit {
+
+  constructor(
+    public bit: BitService
+  ) {
+  }
+
+  ngOnInit(): void {
+    this.bit.registerLocales(import('./language'));
+  }
+}
+```
+
+### setLocale(locale: string)
+
+设置多语言标识，即前端显示的多语言
 
 - **locale** `string` 语言包标识
 
-#### equalI18n(i18n: string)
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { BitService } from 'ngx-bit';
 
-是否与多语言输入组件标识相等
+@Component({
+  selector: 'app-welcome',
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.scss']
+})
+export class WelcomeComponent implements OnInit {
 
-- **i18n** `string` 多语言标识
+  constructor(
+    public bit: BitService
+  ) {
+  }
+
+  ngOnInit(): void {
+  }
+
+  switchToEnglish() {
+    this.bit.setLocale('en_us');
+  }
+}
+```
+
+### listByPage(option: ListByPageOption): ListByPage
+
+生成分页列表对象，关于 [ListByPage](/factory/list-by-page) 的详情
+
+- **option** `ListByPageOption` 分页列表参数
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { BitService } from 'ngx-bit';
+import { ListByPage } from 'ngx-bit/factory';
+
+@Component({
+  selector: 'app-welcome',
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.scss']
+})
+export class WelcomeComponent implements OnInit {
+  lists: ListByPage;
+
+  constructor(
+    public bit: BitService
+  ) {
+  }
+
+  ngOnInit(): void {
+    this.lists = this.bit.listByPage({
+      id: 'welcome',
+      query: [
+        { field: 'type', op: '=', value: 0 }
+      ]
+    });
+  }
+}
+```
+
+### equalI18n(i18n: string): boolean
+
+判断多语言输入标识是否相等
+
+- **i18n** `string` 多语言输入标识
 
 ```html
 <nz-form-item formGroupName="name">
     <nz-form-label bitFormLabelCol nzRequired>
         {{bit.l['name']}}
     </nz-form-label>
-    <ng-container *ngFor="let x of bit.i18nContain">
-    <nz-form-control *ngIf="bit.equalI18n(x)" 
-                     bitFormControlCol 
-                     nzHasFeedback>
-        <input nz-input 
-               [placeholder]="bit.l['namePlaceholder']"
-               [formControlName]="x"/>
-    </nz-form-control>
+    <ng-container *ngFor="let ID of bit.i18nContain">
+        <nz-form-control 
+            *ngIf="bit.equalI18n(ID)" 
+            bitFormControlCol 
+            nzHasFeedback>
+            <input 
+                nz-input 
+                [placeholder]="bit.l['namePlaceholder']"
+                [formControlName]="ID"
+            />
+        </nz-form-control>
     </ng-container>
 </nz-form-item>
 ```
 
-#### resetI18n()
+### resetI18n()
 
-多语言输入组件标识恢复默认值
-
-#### registerLocales(packer: any, common = false)
-
-注册语言包
-
-- **packer** `any` language文件
-- **common** `boolean` 是否为公共语言包
+重置多语言输入标识，即恢复默认的i18n
 
 ```typescript
-const packer = {
-  name: ['名称', 'name']
-};
-
-ngOnInit() {
-    this.bit.registerLocales(packer);
-}
+this.bit.resetI18n();
 ```
 
-#### registerSearch(selector: string, ...search: SearchOptions[])
+### i18nGroup(options: I18nGroupOption): any
 
-注册搜索字段
-
-- **selector** `string` 命名
-- **search** `SearchOptions[]` 搜索参数
-  - **field** `string` 搜索字段名称
-  - **op** `string` 判断类型, 模糊搜索为 `like`,准确搜索为 `=`
-  - **value** `any` 搜索值
-- **Return** `Observable< any >` 搜索注册完成
-
-```typescript
-ngOnInit() {
-    this.bit.registerSearch('sys-index', 
-        { field: 'user', op: 'like', value: '' }
-    ).subscribe(() => {
-        // ...
-    });
-}
-```
-
-#### registerSectionSearch(selector: string, variable: object, ...search: SearchOptions[])
-
-注册局部搜索字段
-
-- **selector** `string` 命名
-- **variable** `object` 局部搜索变量
-- **search** `SearchOptions[]` 搜索参数
-  - **field** `string` 搜索字段名称
-  - **op** `string` 判断类型, 模糊搜索为 `like`,准确搜索为 `=`
-  - **value** `any` 搜索值
-- **Return** `Observable< any >` 搜索注册完成
-
-```typescript
-search = {};
-
-ngOnInit() {
-    this.bit.registerSearch('sys-index', this.search,
-        { field: 'user', op: 'like', value: '' }
-    ).subscribe(() => {
-        // ...
-    });
-}
-```
-
-#### searchChangeAfter(selector: string, variable?: object)
-
-手动触发搜索后置
-
-- **selector** `string` 命名
-- **variable** `object` 局部搜索变量
-- **Return** `Observable< any >` 搜索注册完成
-
-```typescript
-oneOfChange() {
-    this.bit.searchChangeAfter('sys-index').subscribe(() => {
-      this.getLists(true);
-    });
-}
-```
-
-#### hasSearch(field: string, variable?: object)
-
-搜索中是否存在该字段
-
-- **field** `string` 字段名称
-- **variable** `object` 局部搜索变量
-- **Return** `boolean`
-
-```html
-<ng-container *ngIf="bit.hasSearch('user')">
-  <nz-select [(ngModel)]="bit.search['user'].value"
-      bitSearchChange="sys-index"
-      (after)="getLists(true)">
-      <nz-option [nzValue]="x.id" [nzLabel]="x.name"></nz-option>
-  </nz-select>
-</ng-container>
-
-<ng-container *ngIf="bit.hasSearch('user', search)">
-  <nz-select [(ngModel)]="search['user'].value"
-      bitSearchChange="sys-index"
-      [variable]="search"
-      (after)="getLists(true)">
-      <nz-option [nzValue]="x.id" [nzLabel]="x.name"></nz-option>
-  </nz-select>
-</ng-container>
-```
-
-#### getSearch(variable?: object)
-
-获取转化为数组的搜索条件
-
-- **variable** `object` 局部搜索变量
-- **Return** `any[]`
-
-#### listsRefreshStatus(lists: any[])
-
-列表选择监听
-
-- **lists** `any[]` 数据源
-
-在表格中的每个子选择框触发变化事件时，判断数据是否全选、不全选或完全不选择：
-
-```html
-<nz-table>
-    <tbody>
-    <tr *ngFor="let data of table.data">
-        <td nzShowCheckbox
-            [(nzChecked)]="data.checked"
-            (nzCheckedChange)="bit.listsRefreshStatus(lists)">
-        </td>
-    </tr>
-    </tbody>
-</nz-table>
-```
-
-#### listsCheckAll(event: boolean, lists: any[])
-
-列表全选选择监听
-
-- **event** `boolean` 选择框状态改变触发事件
-- **lists** `any[]` 数据源
-
-在表头命名层全选选择框选中后，同步每个数据的选择框状态
-
-```html
-<nz-table>
-    <thead>
-        <tr>
-            <th nzShowCheckbox
-                (nzCheckedChange)="bit.listsCheckAll($event,lists)">
-            </th>
-        </tr>
-    </thead>
-</nz-table>
-```
-
-#### i18nGroup(options?: I18nGroupOptions): any
-
-多语言组件数值初始化
+多语言输入 `FormGroup` 初始化
 
 - **options** `I18nGroupOptions` 多语言组件参数
     - **value** `object` 默认值
-      - **\*** `array` 属于某个多语言标识的数值
+      - **${ID}** `array` 属于某个多语言标识的数值
     - **validate** `object` 同步验证器数组
-      - **\*** `array` 属于某个多语言标识的同步验证器
+      - **${ID}** `array` 属于某个多语言标识的同步验证器
     - **asyncValidate** `object` 异步验证器数组
-      - **\*** `array` 属于某个多语言标识的异步验证器
-
-表单初始化时设置多语言组件：
+      - **${ID}** `array` 属于某个多语言标识的异步验证器
 
 ```typescript
-this.bit.form = this.fb.group({
-    name: this.fb.group(this.bit.i18nGroup({
+import { Component, OnInit } from '@angular/core';
+import { BitService } from 'ngx-bit';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { of } from 'rxjs';
+
+@Component({
+  selector: 'app-welcome',
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.scss']
+})
+export class WelcomeComponent implements OnInit {
+  form: FormGroup;
+
+  constructor(
+    public bit: BitService,
+    private fb: FormBuilder
+  ) {
+  }
+
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      name: this.fb.group(this.bit.i18nGroup({
+        value: {
+          zh_cn: '测试',
+          en_us: 'TEST'
+        },
         validate: {
-            zh_cn: [Validators.required],
-            en_us: [Validators.required]
+          zh_cn: [Validators.required],
+          en_us: []
+        },
+        asyncValidate: {
+          en_us: [this.fun1]
         }
-    })),
-});
+      }))
+    });
+  }
+
+  fun1: AsyncValidatorFn = (control: AbstractControl) => {
+    return of({ error: true, duplicated: true });
+  };
+}
 ```
