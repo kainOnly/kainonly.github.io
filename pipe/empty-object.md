@@ -1,31 +1,39 @@
 ## EmptyObject 空对象
 
-#### @Pipe({name: 'EmptyObject'})
+通过管道判断对象是否为空
 
-```typescript
-@Pipe({name: 'EmptyObject'})
-export class EmptyObjectPipe implements PipeTransform {
-  transform(value: any): boolean {
-    return emptyObject(value);
-  }
-}
+```
+{{ value_expression | EmptyObject }}
 ```
 
 - **value** `any` 对象
 - **Return** `boolean`
 
-例如，假设存在一个空对象属性
+假设存在一个空对象 `data`
 
 ```typescript
-export class AnyComponent {
-    test = {};
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-welcome',
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.scss']
+})
+export class WelcomeComponent implements OnInit {
+  data: any = {};
+
+  ngOnInit(): void {
+  }
 }
+
 ```
 
 在模版中判断使用
 
 ```html
-<div *ngIf="!(test|EmptyObject)">
-    <!-- here customize -->
+<div *ngIf="data|EmptyObject">
+  <!-- 对象为空显示内容 -->
 </div>
 ```
+
+!> 当对象为空数组同样会返回 `false`

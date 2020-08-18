@@ -1,25 +1,5 @@
 ## bitUpload 上传
 
-#### @Directive({selector: '[bitUpload]'})
-
-```typescript
-@Directive({
-  selector: '[bitUpload]'
-})
-export class BitUploadDirective {
-  constructor(
-    private bit: BitService,
-    private config: ConfigService,
-    private nzUploadComponent: NzUploadComponent
-  ) {
-    nzUploadComponent.nzWithCredentials = config.withCredentials;
-    nzUploadComponent.nzAction = bit.uploads;
-    nzUploadComponent.nzSize = 5120;
-    nzUploadComponent.nzShowUploadList = false;
-  }
-}
-```
-
 关联辅助配置，在上传组件中加入属性指令
 
 ```html

@@ -1,36 +1,5 @@
 ## bitCrossLevel 跨级跳转
 
-#### @Directive({selector: '[bitCrossLevel]'})
-
-```typescript
-@Directive({
-  selector: '[bitCrossLevel]'
-})
-export class BitCrossLevelDirective {
-  @Input() bitCrossLevel: string;
-  @Input() bitTrigger = 'click';
-
-  constructor(
-    private bit: BitService
-  ) {
-  }
-
-  @HostListener('click')
-  click() {
-    if (this.bitTrigger === 'click') {
-      this.bit.crossLevel(this.bitCrossLevel);
-    }
-  }
-
-  @HostListener('touchstart')
-  touch() {
-    if (this.bitTrigger === 'touch') {
-      this.bit.crossLevel(this.bitCrossLevel);
-    }
-  }
-}
-```
-
 - **@Input() bitCrossLevel** `string` 跨级路由名称
 - **@Input() bitTrigger** `click|touch` 触发方式，默认 `click`
 

@@ -1,31 +1,37 @@
 ## EmptyArray 空数组
 
-#### @Pipe({name: 'EmptyArray'})
+通过管道判断数组是否为空
 
-```typescript
-@Pipe({name: 'EmptyArray'})
-export class EmptyArrayPipe implements PipeTransform {
-  transform(value: any[]): boolean {
-    return emptyArray(value);
-  }
-}
+```
+{{ value_expression | EmptyArray }}
 ```
 
 - **value** `any[]` 数组
 - **Return** `boolean`
 
-例如，假设存在一个空数组属性
+假设存在一个空数组 `lists`
 
 ```typescript
-export class AnyComponent {
-    test = [];
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-welcome',
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.scss']
+})
+export class WelcomeComponent implements OnInit {
+  lists: any[] = [];
+
+  ngOnInit(): void {
+  }
 }
+
 ```
 
 在模版中判断使用
 
 ```html
-<div *ngIf="!(test|EmptyArray)">
-    <!-- here customize -->
+<div *ngIf="lists|EmptyArray">
+  <!-- 数组为空显示内容 -->
 </div>
 ```

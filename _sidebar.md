@@ -6,9 +6,6 @@
   - [BitSupportService 功能支持](common/bit-support-service)
   - [BitSwalService 提示确认](common/bit-swal-service)
 
-- 生产
-  - [ListByPage 分页列表](factory/list-by-page)
-
 - 组件
   - [bit-i18n-switch 多语言切换器](component/bit-i18n-switch)
   - [bit-i18n-tooltip 多语言提示](component/bit-i18n-tooltip)
@@ -37,12 +34,6 @@
   - [JSONParse JSON字符串转数组](pipe/json-parse)
   - [Privacy 字符串脱敏](pipe/privacy)
 
-- 操作库
-  - [emptyArray 判断空数组](operate/empty-array)
-  - [emptyObject 判断空对象](operate/empty-object)
-  - [asyncValidator 异步验证器](operate/async-validator)
-  - [factoryBitConfig 生产配置](operate/factory-bit-config)
-  - [factoryLocales 生产语言包](operate/factory-locales)
-  - [getQuerySchema 获取Query](operate/get-query-schema)
-  - [getSelectorFormUrl 获取selector](operate/get-selector-for-url)
-  - [validate JSONSchema验证](operate/validate)
+- 生产
+  - [ListByPage 分页列表](factory/list-by-page)
+  - [Operates 操作库](extra/operates)

@@ -1,31 +1,36 @@
 ## Undefined 未定义
 
-#### @Pipe({name: 'Undefined'})
+通过管道判断变量是否被定义
 
-```typescript
-@Pipe({name: 'Undefined'})
-export class UndefinedPipe implements PipeTransform {
-  transform(value: any): boolean {
-    return value === undefined;
-  }
-}
+```
+{{ value_expression | Undefined }}
 ```
 
 - **value** `any` 数值
 - **Return** `boolean`
 
-例如，假设存在一个未定义属性
+假设存在一个未定义变量 `data`
 
 ```typescript
-export class AnyComponent {
-    test;
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-welcome',
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.scss']
+})
+export class WelcomeComponent implements OnInit {
+  data: any;
+
+  ngOnInit(): void {
+  }
 }
 ```
 
 在模版中判断使用
 
 ```html
-<div *ngIf="test|Undefined">
-    <!-- here display -->
+<div *ngIf="data|Undefined">
+  <!-- 未定义显示内容 -->
 </div>
 ```
