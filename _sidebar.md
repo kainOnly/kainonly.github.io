@@ -35,5 +35,6 @@
   - [Privacy 字符串脱敏](pipe/privacy)
 
 - 生产
-  - [ListByPage 分页列表](factory/list-by-page)
   - [Operates 操作库](extra/operates)
+  - [ListByPage 分页列表](factory/list-by-page)
+
