@@ -6,10 +6,12 @@
 
 `[bitBack]`
 
-### 说明
+### 使用说明
+
+将 `[bitBack]` 设置给 button 按钮，当点击 button 时返回上一级链接
 
 ```html
 <button nz-button type="button" bitBack>
-    {{bit.l['cancel']}}
+    返回上一级
 </button>
 ```

@@ -1,36 +1,60 @@
 ## bitSearchStart 搜索触发
 
-待更新
+为分页列表提供搜索触发功能，触发事件为 `click` 与 `keydown.enter`
 
-- **@Input() bitSearchStart** `string` 搜索命名
-- **@Input() variable** `object` 局部搜索变量
-- **@Output() after** `EventEmitter< any >` 开始搜索之后
+### 选择器
 
-注册搜索字段
+`[bitSearchStart]`
+
+### 属性
+
+`BitSearchStartDirective` 组件包含以下属性指令：
+
+| 属性               | 说明         | 类型                    | 默认值 |
+| ------------------ | ------------ | ----------------------- | ------ |
+| `[bitSearchStart]` | 分页列表对象 | `ListByPage`            | -      |
+| `(after)`          | 搜索变动之后 | `EventEmitter<any>` | -      |
+
+### 使用说明
+
+为 `input` 与 `button` 创建分页列表搜索触发功能
 
 ```typescript
-this.bit.registerSearch('app-index', 
-  {field: 'name', op: 'like', value: ''}
-).subscribe(() => {
+@Component({
+  template: `
+    <ng-container *ngIf="lists.hasSearch('username')">
+      <input
+        [bitSearchStart]="lists"
+        [(ngModel)]="lists.search['username'].value"
+        (after)="after()"
+      />
+      <button
+        [bitSearchStart]="lists"
+        (after)="after()"
+      >
+        搜索
+      </button>
+    </ng-container>
+  `
+})
+class TestComponent implements OnInit {
+  lists: ListByPage;
 
-});
-```
+  constructor(
+    private bit: BitService
+  ) {
+  }
 
-同时给组件加入 `click` 与 `enter` 触发搜索
+  ngOnInit() {
+    this.lists = this.bit.listByPage({
+      id: 'test',
+      query: [
+        { field: 'username', op: '=', value: '' }
+      ]
+    });
+  }
 
-```html
-<nz-input-group nzSearch [nzAddOnAfter]="nzAddOnAfter">
-  <input type="text" [(ngModel)]="bit.search['name'].value"
-          bitSearchStart="app-index"
-          (after)="getLists(true)"
-          nz-input [placeholder]="bit.l['search']">
-</nz-input-group>
-
-<ng-template #nzAddOnAfter>
-  <button nz-button nzType="primary" nzSearch
-          bitSearchStart="app-index"
-          (after)="getLists(true)">
-    <i nz-icon type="search"></i>
-  </button>
-</ng-template>
+  after() {
+  }
+}
 ```

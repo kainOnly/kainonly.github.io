@@ -1,15 +1,31 @@
 ## bitUpload 上传
 
-待更新
+为文件上传组件提供配置绑定
+
+### 选择器
+
+`[bitUpload]`
+
+### 使用说明
+
+通常情况 `nz-upload` 需要这样定义
 
 ```html
-<nz-upload nzName="image" bitUpload
-            nzListType="picture-card"
-            (nzChange)="upload($event)">
-    <ng-container *ngIf="!avatar">
-    <i nz-icon type="plus"></i>
-    <div class="ant-upload-text">{{bit.l['upload']}}</div>
-    </ng-container>
-    <img width="120" *ngIf="avatar" [src]="bit.static+avatar" class="avatar">
+<nz-upload 
+    nzName="image"
+    [nzAction]="bit.uploads"
+    [nzWithCredentials]="config.api.withCredentials"
+    [nzSize]="5120"
+    [nzShowUploadList]="false">
+</nz-upload>
+```
+
+为 `nz-upload` 创建配置绑定后可以更简洁的实现相同定义
+
+```html
+<nz-upload 
+    nzName="image"
+    bitUpload
+    [nzShowUploadList]="false">
 </nz-upload>
 ```

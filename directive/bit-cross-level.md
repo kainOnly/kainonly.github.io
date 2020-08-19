@@ -1,28 +1,27 @@
-## bitCrossLevel 跨级跳转
+## bitCrossLevel 跨级导航
 
-待更新
+可以在应用中执行跨级导航，当执行跨越导航时没有更好的方式记录其参数，此时配合 `open` 与 `crossLevel` 就能解决问题
 
-- **@Input() bitCrossLevel** `string` 跨级路由名称
-- **@Input() bitTrigger** `click|touch` 触发方式，默认 `click`
+### 选择器
 
-例如使用在面包屑
+`[bitCrossLevel]`
+
+### 属性
+
+`BitCrossLevelDirective` 组件包含以下属性指令：
+
+| 属性              | 说明         | 类型     | 默认值 |
+| ----------------- | ------------ | -------- | ------ |
+| `[bitCrossLevel]` | 跨级路由名称 | `string` | -      |
+
+### 使用说明
+
+假设导航至/{team-index}/1，再从/{team-index}/1导航至/{team-index}/1/services/T100
 
 ```html
-<nz-breadcrumb [nzSeparator]="breadcrumbIcon">
-  <ng-template #breadcrumbIcon>
-    <i nz-icon type="right"></i>
-  </ng-template>
-  <nz-breadcrumb-item>
-    <a routerLink="/">{{bit.l['dashboard']}}</a>
-  </nz-breadcrumb-item>
-  <nz-breadcrumb-item *ngFor="let x of bit.breadcrumb;last as islast">
-    <ng-container *ngIf="islast;else notLast">{{x.name|Locale:bit.locale}}</ng-container>
-    <ng-template #notLast>
-      <a *ngIf="x.router;else notRouterlink" [bitCrossLevel]="x.key">
-        {{x.name|Locale:bit.locale}}
-      </a>
-      <ng-template #notRouterlink>{{x.name|Locale:bit.locale}}</ng-template>
-    </ng-template>
-  </nz-breadcrumb-item>
-</nz-breadcrumb>
+<button nz-button type="button" bitCrossLevel="team-index">
+  跨级导航
+</button>
 ```
+
+此时执行 button 将跨级跳转至/{team-index}/1

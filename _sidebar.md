@@ -13,11 +13,11 @@
 
 - 指令
   - [bitBack 返回上一级](directive/bit-back)
-  - [bitCrossLevel 跨级跳转](directive/bit-cross-level)
+  - [bitCrossLevel 跨级导航](directive/bit-cross-level)
   - [bitCol 栅格标识](directive/bit-col)
   - [bitFormSubmit 表单提交](directive/bit-form-submit)
-  - [bitI18nUpdate 多语言联动验证](directive/bit-i18n-update)
-  - [bitOpen 路由跳转](directive/bit-open)
+  - [bitI18nUpdate 多语言输入更新](directive/bit-i18n-update)
+  - [bitOpen 路由导航](directive/bit-open)
   - [bitSearchChange 搜索监听](directive/bit-search-change)
   - [bitSearchStart 搜索触发](directive/bit-search-start)
   - [bitSearchClear 搜索清除](directive/bit-search-clear)
