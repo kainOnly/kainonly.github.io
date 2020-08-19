@@ -2,6 +2,10 @@
 
 BitSwalService 是基于 sweetalert2 的提交反馈栏服务
 
+## Method
+
+`BitSwalService` 服务所包含以下方法：
+
 ### addAlert(res: any, form: FormGroup, reset?: any, customize?: AlertCustomize): Observable< any >
 
 新增返回反馈栏
