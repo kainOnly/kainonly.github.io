@@ -6,8 +6,15 @@
 {{ value_expression | EmptyArray }}
 ```
 
-- **value_expression** `any[]` 数组
+### 输入值
+
+- **value** `any[]` 数组
+
+### 返回
+
 - **Return** `boolean`
+
+### 使用说明
 
 假设存在一个空数组 `lists`
 

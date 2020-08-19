@@ -1,10 +1,12 @@
 ## bitBack 返回上一级
 
-待更新
+可以在应用中返回链接
 
-- **@Input() bitTrigger** `click|touch` 触发方式，默认 `click`
+### 选择器 
 
-添加在按钮中
+`[bitBack]`
+
+### 说明
 
 ```html
 <button nz-button type="button" bitBack>

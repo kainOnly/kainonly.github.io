@@ -6,9 +6,19 @@
 {{ value_expression | Privacy: range }}
 ```
 
-- **value_expression** `string` 字符串
+### 输入值
+
+- **value** `string` 字符串
+
+### 参数
+
 - **range** `string` 切片范围
+
+### 返回
+
 - **Return** `string`
+
+### 使用说明
 
 假设存在一个待脱敏的字符串 `text`
 

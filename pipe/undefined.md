@@ -6,8 +6,15 @@
 {{ value_expression | Undefined }}
 ```
 
-- **value_expression** `any` 数值
+### 输入值
+
+- **value** `any` 数值
+
+### 返回
+
 - **Return** `boolean`
+
+### 使用说明
 
 假设存在一个未定义变量 `data`
 

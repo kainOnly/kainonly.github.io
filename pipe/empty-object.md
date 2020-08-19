@@ -6,8 +6,15 @@
 {{ value_expression | EmptyObject }}
 ```
 
-- **value_expression** `any` 对象
+### 输入值
+
+- **value** `any` 对象
+
+### 返回
+
 - **Return** `boolean`
+
+### 使用说明
 
 假设存在一个空对象 `data`
 

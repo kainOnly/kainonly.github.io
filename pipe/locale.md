@@ -6,9 +6,19 @@
 {{ value_expression | Locale: locale }}
 ```
 
-- **value_expression** `string | object` JSON字符串或JSON
+### 输入值
+
+- **value** `string | object` JSON字符串或JSON
+
+### 参数
+
 - **locale** `string` 语言包标识
+
+### 返回
+
 - **Return** `string`
+
+### 使用说明
 
 假设存在一个多语言JSON字符串 `lang`
 

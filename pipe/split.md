@@ -6,9 +6,19 @@
 {{ value_expression | Split: symbol }}
 ```
 
-- **value_expression** `string` 字符串
+### 输入值
+
+- **value** `string` 字符串
+
+### 参数
+
 - **symbol** `string` 分割符号
+
+### 返回
+
 - **Return** `string`
+
+### 使用说明
 
 假设存在一个字符串集合 `text`
 

@@ -6,9 +6,19 @@
 {{ value_expression | Join: symbol }}
 ```
 
-- **value_expression** `string[]` 字符串数组
+### 输入值
+
+- **value** `string[]` 字符串数组
+
+### 参数
+
 - **symbol** `string` 拼接符号
+
+### 返回
+
 - **Return** `string`
+
+### 使用说明
 
 假设存在一个字符串数组 `lists`
 
