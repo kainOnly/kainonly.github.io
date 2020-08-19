@@ -2,6 +2,10 @@
 
 BitHttpService 请求处理是对 `HttpClient` 的封装，可以通过它快捷对接后端 CURD 接口，以下示例中 `http` 为 `BitHttpService` 服务的注入命名
 
+## Method
+
+`BitHttpService` 服务所包含以下方法：
+
 ### req(url: string, body: any = {}, method = 'post'): Observable< any >
 
 创建请求对象

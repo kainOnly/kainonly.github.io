@@ -9,6 +9,10 @@ events.on('locale').subscribe(args => {
 });
 ```
 
+## Method
+
+`BitEventsService` 服务所包含以下方法：
+
 ### exists(topic: string): boolean
 
 判断组件通讯事件是否存在
