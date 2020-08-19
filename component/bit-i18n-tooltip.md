@@ -1,11 +1,21 @@
 ## bit-i18n-tooltip 多语言提示
 
+提供应用表单多语言输入的语言输入缺失提示
+
+### 组件
+
+`<bit-i18n-tips #i18nTips groupName="name_expression"></bit-i18n-tips>`
+
+### 属性
+
 `BitI18nTooltipComponent` 组件包含以下属性指令：
 
 | 属性        | 说明                | 类型               | 默认值 |
 | ----------- | ------------------- | ------------------ | ------ |
 | `ref`       | 多语言提示模板      | `TemplateRef<any>` | -      |
 | `groupName` | 多语言FormGroupName | `string`           | -      |
+
+### 使用说明
 
 例如，将 `tooltip` 提供给 `[nz-tooltip]`
 

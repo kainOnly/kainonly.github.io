@@ -1,5 +1,13 @@
 ## bit-error-tip 验证错误提示
 
+提供应用表单组件的验证错误提示方式
+
+### 组件
+
+`<bit-error-tip #errorTip [hasError]="{}"></bit-error-tip>`
+
+### 属性
+
 `BitErrorTipComponent` 组件包含以下属性指令：
 
 | 属性       | 说明             | 类型               | 默认值 |
@@ -7,6 +15,8 @@
 | `ref`      | 验证错误提示模板 | `TemplateRef<any>` | -      |
 | `hasError` | errors 错误信息  | `object`           | -      |
 
+
+### 使用说明
 
 例如，将验证错误提示提供给 `nz-form-control` 的 `[nzErrorTip]`
 

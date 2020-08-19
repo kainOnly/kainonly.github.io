@@ -1,10 +1,20 @@
 ## bit-i18n-switch 多语言切换器
 
+提供应用表单多语言切换器，使表单组件具备多语言输入
+
+### 组件
+
+`<bit-i18n-switch (i18nChange)="change($event)"></bit-i18n-switch>`
+
+### 属性
+
 `BitI18nSwitchComponent` 组件包含以下属性指令：
 
 | 属性           | 说明               | 类型                   | 默认值 |
 | -------------- | ------------------ | ---------------------- | ------ |
 | `(i18nChange)` | 监听 i18n 值的变化 | `EventEmitter<string>` | -      |
+
+### 使用说明
 
 例如，控制表单内所有多语言输入组件，在页头加入 `bit-i18n-switch`
 
