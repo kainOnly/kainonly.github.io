@@ -1,1 +1,0 @@
-## factoryLocales 生产语言包
