@@ -10,6 +10,7 @@
   - [bit-i18n-switch 多语言切换器](component/bit-i18n-switch)
   - [bit-i18n-tooltip 多语言提示](component/bit-i18n-tooltip)
   - [bit-error-tip 验证错误提示](component/bit-error-tip)
+  - [bit-header 页头填充](component/bit-header)
 
 - 指令
   - [bitBack 返回上一级](directive/bit-back)
