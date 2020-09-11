@@ -15,7 +15,7 @@
 | 属性       | 说明             | 类型                         | 默认值  |
 | ---------- | ---------------- | ---------------------------- | ------- |
 | `back`     | 是否显示返回按钮 | `boolean`                    | `false` |
-| `subTitle` | 子标题           | `string | TemplateRef<void>` | -       |
+| `subTitle` | 子标题           | `string \| TemplateRef<void>` | -       |
 
 ### 使用说明
 
