@@ -12,12 +12,7 @@
 
 ## 快速开始
 
-仅展示前端必须的正确配置，不启动后端则不能正常加载，也可查看仓库对应的在线案例 [https://console.kainonly.com](https://console.kainonly.com)
-
-- 用户名 `kain`
-- 密码 `pass@VAN1234`
-
-初始化案例，创建本地项目 bit-example
+初始化案例，创建本地项目 bit-example（仅展示前端必须的正确配置，不启动后端则不能正常加载）
 
 ```shell
 ng new bit-example
