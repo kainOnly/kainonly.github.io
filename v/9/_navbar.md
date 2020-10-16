@@ -2,4 +2,3 @@
   - <a href="/v/1" target="_blank">1.x</a>
   - <a href="/v/7" target="_blank">7.x</a>
   - <a href="/v/8" target="_blank">8.x</a>
-  - <a href="/v/9" target="_blank">9.x</a>
