@@ -17,6 +17,15 @@ const bit = factoryBitConfig({
     upload: '/system/main/uploads',
     withCredentials: true
   },
+  curd: {
+    get: '/get',
+    lists: '/lists',
+    originLists: '/originLists',
+    add: '/add',
+    edit: '/edit',
+    status: '/edit',
+    delete: '/delete'
+  },
   col: {
     label: {
       nzXXl: 4,
@@ -98,6 +107,7 @@ export const environment = {
 | `api.namespace`       | 接口命名空间                            | `string`              | `''`        |
 | `api.upload`          | 统一上传路径                            | `string`              | `''`        |
 | `api.withCredentials` | 是否携带 cookie                         | `bool`                | `false`     |
+| `curd.*`              | 请求处理默认 path                       | `string`              | `''`        |
 | `col.{$key}`          | 定义统一栅格                            | `object`              | `{}`        |
 | `i18n.default`        | 多语言输入标识默认状态                  | `string`              | `''`        |
 | `i18n.contain`        | 多语言输入包含标识                      | `string[]`            | `[]`        |

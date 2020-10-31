@@ -37,18 +37,19 @@ export class WelcomeComponent implements OnInit {
 
 `ListByPage` 所包含以下属性：
 
-| 属性            | 说明                     | 类型                                | 默认值  |
-| --------------- | ------------------------ | ----------------------------------- | ------- |
-| `search`        | 搜索字段定义             | `{ [field: string]: SearchOption }` | `{}`    |
-| `data`          | 分页列表数据             | `any[]`                             | `[]`    |
-| `loading`       | 分页列表加载状态         | `boolean`                           | `true`  |
-| `limit`         | 分页记录数量             | `number`                            | `0`     |
-| `totals`        | 分页总数                 | `number`                            | `0`     |
-| `index`         | 分页页码                 | `number`                            | `1`     |
-| `checked`       | 分页列表是否全被选中     | `boolean`                           | `false` |
-| `indeterminate` | 分页列表是否不完全被选中 | `boolean`                           | `false` |
-| `batch`         | 是否可进行批量处理       | `boolean`                           | `false` |
-| `checkedNumber` | 分页列表被选中的数量     | `number`                            | `0`     |
+| 属性            | 说明                     | 类型                                | 默认值      |
+| --------------- | ------------------------ | ----------------------------------- | ----------- |
+| `search`        | 搜索字段定义             | `{ [field: string]: SearchOption }` | `{}`        |
+| `order`         | 排序字段定义             | `OrderOption`                       | `undefined` |
+| `data`          | 分页列表数据             | `any[]`                             | `[]`        |
+| `loading`       | 分页列表加载状态         | `boolean`                           | `true`      |
+| `limit`         | 分页记录数量             | `number`                            | `0`         |
+| `totals`        | 分页总数                 | `number`                            | `0`         |
+| `index`         | 分页页码                 | `number`                            | `1`         |
+| `checked`       | 分页列表是否全被选中     | `boolean`                           | `false`     |
+| `indeterminate` | 分页列表是否不完全被选中 | `boolean`                           | `false`     |
+| `batch`         | 是否可进行批量处理       | `boolean`                           | `false`     |
+| `checkedNumber` | 分页列表被选中的数量     | `number`                            | `0`         |
 
 ## Method
 
@@ -243,6 +244,15 @@ this.lists.getPage().subscribe(index => {
 
 ```typescript
 this.lists.persistence();
+```
+
+### toQuery(): SearchOption[]
+
+返回查询定义数组
+
+```typescript
+const search = this.lists.toQuery();
+
 ```
 
 ### toQuerySchema(): any[]

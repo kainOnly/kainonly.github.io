@@ -22,13 +22,14 @@ http.req('main/resource').subscribe(res => {
 });
 ```
 
-### get(model: string, condition: number | string | SearchOptions[], path: string = '/get'): Observable< any >
+### get(model: string, condition: number | string | SearchOption[], order?: OrderOption, path?: string): Observable< any >
 
 创建获取单条数据的请求
 
 - **model** `string` 模块名称
 - **condition** `number | string | SearchOptions[]` 查询条件，当类型为 `number` 或 `string` 是将作为主键返回后端，若为 `SearchOptions[]` 则会组合成 Laravel Query 的条件数组以 `where` 返回后端（ThinkPHP 同样支持）
-- **path** `string` 自定义路径，默认 `/get`
+- **order** `OrderOption` 排序条件
+- **path** `string` 自定义路径
 
 ```typescript
 // 主键查询
@@ -39,7 +40,7 @@ http.get(this.model, [
 ])
 ```
 
-### lists(model: string, factory: ListByPage, option: ListsOption, path: string = '/lists'): Observable< any >
+### lists(model: string, factory: ListByPage, option: ListsOption, path?: string): Observable< any >
 
 创建分页列表数据的请求
 
@@ -48,7 +49,7 @@ http.get(this.model, [
 - **option** `ListsOption`
   - **refresh** `boolean` 刷新，即重置分页
   - **persistence** `boolean` 持久存储，即记录分页历史
-- **path** `string` 自定义路径，默认 `/lists`
+- **path** `string` 自定义路径
 
 ```typescript
 const search = bit.listByPage({
@@ -64,25 +65,26 @@ http.lists('admin', search, {
 })
 ```
 
-### originLists(model: string, condition: SearchOption[] = [], path: string = '/originLists'): Observable< any >
+### originLists(model: string, condition: SearchOption[] = [], order?: OrderOption, path?: string): Observable<any>
 
 创建列表数据的处理
 
 - **model** `string` 模块名称
 - **condition** `SearchOptions[]` 条件数组，组合成 Laravel Query 的条件数组以 `where` 返回后端（ThinkPHP 同样支持）
-- **path** `string` 自定义路径，默认 `/originLists`
+- **order** `OrderOption` 排序条件
+- **path** `string` 自定义路径
 
 ```typescript
 http.originLists('admin');
 ```
 
-### add(model: string, data: any, path: string = '/add'): Observable< any >
+### add(model: string, data: any, path?: string): Observable< any >
 
 创建一个新增的处理
 
 - **model** `string` 模块名称
 - **data** `any` body 数据
-- **path** `string` 自定义路径，默认 `/add`
+- **path** `string` 自定义路径
 
 ```typescript
 const data = {
@@ -93,14 +95,14 @@ const data = {
 http.add('admin', data);
 ```
 
-### edit(model: string, data: any, condition?: SearchOptions[], path: string = '/edit'): Observable< any >
+### edit(model: string, data: any, condition?: SearchOptions[], path?: string): Observable< any >
 
 创建一个编辑的处理
 
 - **model** `string` 模块名称
 - **data** `any` body 数据
 - **condition** `SearchOptions[]` 条件数组，组合成 Laravel Query 的条件数组以 `where` 返回后端（ThinkPHP 同样支持）
-- **path** `string` 自定义路径，默认 `/edit`
+- **path** `string` 自定义路径
 
 ```typescript
 const data = {
@@ -122,7 +124,7 @@ const data = {
 http.edit('admin', data, condition);
 ```
 
-### status(model: string, data: any, field = 'status', extra?: any, path: string = '/edit'): Observable< any >
+### status(model: string, data: any, field = 'status', extra?: any, path?: string): Observable< any >
 
 创建状态切换的请求，状态将以相反的数值提交给后端
 
@@ -130,7 +132,7 @@ http.edit('admin', data, condition);
 - **data** `any` body 数据
 - **field** `string` 状态字段，默认 `status`
 - **extra** `any` 扩展字段
-- **path** `string` 自定义路径，默认 `/edit`
+- **path** `string` 自定义路径
 
 ```typescript
 const data = {
@@ -159,14 +161,14 @@ http.status('admin', data, 'online', {
 });
 ```
 
-### delete(model: string, id?: any[], condition?: SearchOption[], path: string = '/delete'): Observable< any >
+### delete(model: string, id?: any[], condition?: SearchOption[], path?: string): Observable< any >
 
 创建删除的请求，`id` 与 `condition` 两者必须选一种
 
 - **model** `string` 模块名称
 - **id** `any[]` 主键数组
 - **condition** `SearchOptions[]` 条件数组，组合成 Laravel Query 的条件数组以 `where` 返回后端（ThinkPHP 同样支持）
-- **path** `string` 自定义路径，默认 `/delete`
+- **path** `string` 自定义路径
 
 ```typescript
 // 使用主键数组删除
