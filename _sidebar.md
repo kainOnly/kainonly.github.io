@@ -40,4 +40,5 @@
   - [ListByPage 分页列表](factory/list-by-page)
 
 - Change Log
+  - [10.1.1](changelog/10.1.1)
   - [10.1.0](changelog/10.1.0)

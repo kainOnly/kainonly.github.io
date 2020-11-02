@@ -61,10 +61,10 @@ export class WelcomeComponent implements OnInit {
 
 - **data** `any[]` 数据源
 
-当分页列表请求返回时设置
+当分页列表请求返回时设置，`getLists` 因酌情处理，这里 `event` 代表分页页码，可直接供 Table 组件使用
 
 ```typescript
-getLists(refresh = false) {
+getLists(refresh = false, event?:any) {
     service.lists(
         this.lists,
         refresh,
@@ -240,7 +240,7 @@ this.lists.getPage().subscribe(index => {
 
 ### persistence()
 
-执行分页页码的持久化记录
+主动执行分页页码的持久化记录
 
 ```typescript
 this.lists.persistence();
