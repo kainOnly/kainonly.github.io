@@ -2,12 +2,13 @@
 
 辅助框架还提供一些常用到的操作库
 
-### asyncValidator(req: Observable<any>, field = 'duplicated'): Observable< any > 
+### asyncValidator(handle: Observable<boolean>, field = 'duplicated', dueTime = 500): Observable< any >
 
 创建异步验证器
 
-- **req** `Observable<any>` 请求对象
+- **handle** `Observable<boolean>` 返回验证结果
 - **field** `string` 自定义返回
+- **dueTime** `number` 防抖动延时，默认 `500` ms
 
 假设验证key字段是否唯一，`response` 是模拟请求的响应值，通常这样使用请求服务
 
@@ -37,11 +38,8 @@ export class WelcomeComponent implements OnInit {
   }
 
   existsKey = (control: AbstractControl) => {
-    const response = of({
-      error: 0,
-      data: true
-    });
-    return asyncValidator(response);
+    const handle = of(true);
+    return asyncValidator(handle);
   };
 }
 ```
