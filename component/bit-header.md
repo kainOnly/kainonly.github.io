@@ -22,6 +22,7 @@
 使用页头填充要配合 `BitSupportService` 使用，首先要在根应用组件中加入（通常包含主 `<router-outlet></router-outlet>`）：
 
 ```html
+<ng-container *ngTemplateOutlet="support.banner"></ng-container>
 <nz-page-header
     [nzTitle]="support.title|Locale:bit.locale"
     [nzSubtitle]="!support.subTitle?null:support.subTitle"
@@ -83,6 +84,17 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 接下来就可以在路由页面中做页头填充
 
 ```html
+<bit-header>
+  <button nz-button nzType="primary" [bitOpen]="['any-add']">
+    <span>新增</span>
+  </button>
+</bit-header>
+```
+
+在页头上方设置顶部公告
+
+```html
+<nz-alert bitBanner nzBanner nzType="info" nzCloseable [nzMessage]="'some messages...some messages...'"></nz-alert>
 <bit-header>
   <button nz-button nzType="primary" [bitOpen]="['any-add']">
     <span>新增</span>

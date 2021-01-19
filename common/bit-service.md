@@ -35,10 +35,10 @@ BitService 是辅助架构中的助手工具，以下示例中 `bit` 为 `BitSer
 </nz-upload>
 ```
 
-- `locale` 为当前多语言标识状态通常使用在 `LocalePipe`，例如：
+- `locale` 为当前多语言标识状态通常使用在 `ObjectPipe`，例如：
 
 ```html
-{{name|Locale:bit.locale}}
+{{name|object:bit.locale}}
 ```
 
 - `l` 为语言包索引，在组件完成语言包注册后可在模板中使用，例如：

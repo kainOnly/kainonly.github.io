@@ -4,9 +4,9 @@ BitConfigService 是辅助框架统一配置管理的服务，配置则需要修
 
 ```typescript
 import { en_US, zh_CN } from 'ng-zorro-antd';
-import { factoryBitConfig } from 'ngx-bit/operates';
+import { BitConfig } from 'ngx-bit/types';
 
-const bit = factoryBitConfig({
+const bit: BitConfig = {
   url: {
     api: 'http://localhost:9501',
     static: 'https://cdn.example.com/',
@@ -14,8 +14,12 @@ const bit = factoryBitConfig({
   },
   api: {
     namespace: '/system',
+    withCredentials: true,
     upload: '/system/main/uploads',
-    withCredentials: true
+    uploadStorage: 'default',
+    uploadFetchSigned: '<if oss obs cos>',
+    uploadFetchSignedMethod: '<if oss obs cos>',
+    uploadSize: 5120
   },
   curd: {
     get: '/get',
@@ -81,7 +85,7 @@ const bit = factoryBitConfig({
     ]
   },
   page: 20
-});
+};
 
 export const environment = {
   production: false,
@@ -89,33 +93,32 @@ export const environment = {
 };
 ```
 
-### factoryBitConfig(config: BitConfig) `ngx-bit/operates`
-
-生产 `BitConfigService` 所需的必要配置，通常使用在环境配置文件中，例如 `src\environments\environment.ts`
-
-
 ## BitConfig
 
 `BitConfigService` 服务同样共有以下属性：
 
 
-| 属性                  | 说明                                    | 类型                  | 默认值      |
-| --------------------- | --------------------------------------- | --------------------- | ----------- |
-| `url.api`             | 接口地址                                | `string`              | `''`        |
-| `url.static`          | 静态资源地址                            | `string`              | `''`        |
-| `url.icon`            | icon路径                                | `string`              | `undefined` |
-| `api.namespace`       | 接口命名空间                            | `string`              | `''`        |
-| `api.upload`          | 统一上传路径                            | `string`              | `''`        |
-| `api.withCredentials` | 是否携带 cookie                         | `bool`                | `false`     |
-| `curd.*`              | 请求处理默认 path                       | `string`              | `''`        |
-| `col.{$key}`          | 定义统一栅格                            | `object`              | `{}`        |
-| `i18n.default`        | 多语言输入标识默认状态                  | `string`              | `''`        |
-| `i18n.contain`        | 多语言输入包含标识                      | `string[]`            | `[]`        |
-| `i18n.switch`         | 多语言输入标识详情                      | `I18nOption[]`        | `[]`        |
-| `locale.default`      | 本地语言包标识默认状态                  | `string`              | `''`        |
-| `locale.mapping`      | 本地语言包标识与语言包文件索引映射      | `Map<number, string>` | `null`      |
-| `locale.bind`         | 本地语言包标识与ng-zorro-antd语言包映射 | `Map<string, string>` | `null`      |
-| `page`                | 分页请求的默认数量                      | `number`              | `0`         |
+| 属性                          | 说明                                    | 类型                                | 默认值      |
+| ----------------------------- | --------------------------------------- | ----------------------------------- | ----------- |
+| `url.api`                     | 接口地址                                | `string`                            | `''`        |
+| `url.static`                  | 静态资源地址                            | `string`                            | `''`        |
+| `url.icon`                    | icon路径                                | `string`                            | `undefined` |
+| `api.namespace`               | 接口命名空间                            | `string`                            | `''`        |
+| `api.withCredentials`         | 是否携带 cookie                         | `bool`                              | `false`     |
+| `api.upload`                  | 统一上传路径                            | `string`                            | `''`        |
+| `api.uploadStorage`           | 上传存储                                | `'default' | 'oss' | 'obs' | 'cos'` | `'default'` |
+| `api.uploadFetchSigned`       | 获取对象存储签名参数的请求              | `string`                            | `''`        |
+| `api.uploadFetchSignedMethod` | 获取对象存储签名参数的请求Method        | `string`                            | `''`        |
+| `api.uploadSize`              | 上传文件大小限制                        | `number`                            | `5120`      |
+| `curd.*`                      | 请求处理默认 path                       | `string`                            | `''`        |
+| `col.{$key}`                  | 定义统一栅格                            | `object`                            | `{}`        |
+| `i18n.default`                | 多语言输入标识默认状态                  | `string`                            | `''`        |
+| `i18n.contain`                | 多语言输入包含标识                      | `string[]`                          | `[]`        |
+| `i18n.switch`                 | 多语言输入标识详情                      | `I18nOption[]`                      | `[]`        |
+| `locale.default`              | 本地语言包标识默认状态                  | `string`                            | `''`        |
+| `locale.mapping`              | 本地语言包标识与语言包文件索引映射      | `Map<number, string>`               | `null`      |
+| `locale.bind`                 | 本地语言包标识与ng-zorro-antd语言包映射 | `Map<string, string>`               | `null`      |
+| `page`                        | 分页请求的默认数量                      | `number`                            | `0`         |
 
 - 如果静态资源为远程加载，则可以配置 `url.static`，这样可以通过 `BitService` 快捷的调用远程路径
 - 如果 `url.icon` 不被定义，则会加载本地的 icon 路径；如果被定义则会加载远程地址，例如 `https://cdn.example.com/`

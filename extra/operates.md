@@ -44,119 +44,28 @@ export class WelcomeComponent implements OnInit {
 }
 ```
 
-### emptyArray(array: any[])
+### empty(value: any): boolean
 
-判断数组是否为空
+判断是否为空
 
-- **array** `any[]` 数组
+- **value** `any` 数值
 - **Return** `boolean`
 
 ``` typescript
-const data = [];
-
-emptyArray(data);
+empty(undefined);
 // true
-```
-
-### emptyObject(object: any)
-
-判断对象是否为空
-
-- **object** `any` 对象
-- **Return** `boolean`
-
-``` typescript
-const data = {};
-
-emptyObject(data);
+empty('');
 // true
-
-emptyObject([]);
-// false
-```
-
-### factoryBitConfig(config: BitConfig)
-
-生产 `BitConfigService` 所需的必要配置，通常使用在环境配置文件中，例如 `src\environments\environment.ts`
-
-- **config** `BitConfig` 详情查看 [BitConfigService 统一配置](common/bit-config-service?id=bitconfig)
-
-```typescript
-import { en_US, zh_CN } from 'ng-zorro-antd';
-import { factoryBitConfig } from 'ngx-bit/operates';
-
-const bit = factoryBitConfig({
-  url: {
-    api: 'http://localhost:9501',
-    static: 'https://cdn.example.com/',
-    icon: 'https://cdn.example.com/'
-  },
-  api: {
-    namespace: '/system',
-    upload: '/system/main/uploads',
-    withCredentials: true
-  },
-  col: {
-    label: {
-      nzXXl: 4,
-      nzXl: 5,
-      nzLg: 6,
-      nzMd: 7,
-      nzSm: 24
-    },
-    control: {
-      nzXXl: 8,
-      nzXl: 9,
-      nzLg: 10,
-      nzMd: 14,
-      nzSm: 24
-    },
-    submit: {
-      nzXXl: { span: 8, offset: 4 },
-      nzXl: { span: 9, offset: 5 },
-      nzLg: { span: 10, offset: 6 },
-      nzMd: { span: 14, offset: 6 },
-      nzSm: { span: 24, offset: 0 }
-    }
-  },
-  locale: {
-    default: 'zh_cn',
-    mapping: new Map<number, string>([
-      [0, 'zh_cn'],
-      [1, 'en_us']
-    ]),
-    bind: new Map<string, any>([
-      ['zh_cn', zh_CN],
-      ['en_us', en_US]
-    ])
-  },
-  i18n: {
-    default: 'zh_cn',
-    contain: ['zh_cn', 'en_us'],
-    switch: [
-      {
-        i18n: 'zh_cn',
-        name: {
-          zh_cn: '中文',
-          en_us: 'Chinese'
-        }
-      },
-      {
-        i18n: 'en_us',
-        name: {
-          zh_cn: '英文',
-          en_us: 'English'
-        }
-      }
-    ]
-  },
-  page: 20
-});
-
-export const environment = {
-  production: false,
-  bit
-};
+empty(0);
+// true
+empty(false);
+// true
+empty(null);
+// true
+empty([]);
+// true
+empty({});
+// true
 ```
 
 ### factoryLocales(dataset: object, mapping: Map< number, string >)
@@ -228,23 +137,29 @@ key = getSelectorFormUrl('/%7Bacl-edit%7D/1/2', ['%7B', '%7D']);
 // console: acl-edit
 ```
 
-### validate(schema: string | boolean | object, data: any): any
+### print(str: string, ...vars: any): string
 
-JSONSchema 验证器
+字符串模板，可适用于多语言模板
 
-- **schema** `string | boolean | object` 验证规则
-- **data** `any` 验证数据
+- **str** `string` 字符串文本
+- **vars** `any[]` 变量，替换$0,$1,$2....$N
 
 ```typescript
-let valid = validate({
-    enum: [1, 2, 3, 4]
-}, 1);
+print('$0 是遵循 $1 设计规范的 $2 组件库','ng-zorro-antd', 'Ant Design', 'Angular UI');
 
-// console: valid.error false
+// ng-zorro-antd 是遵循 Ant Design 设计规范的 Angular UI 组件库
+```
 
-valid = validate({
-    enum: [1, 2, 3, 4]
-}, 5);
+### privacy(text: string, start: number, end: number): string
 
-// console: valid.error true
+字符串脱敏
+
+- **text** `string` 文本
+- **start** `number` 起始索引
+- **end** `number` 结束索引
+
+```typescript
+privacy('123456789', 3, 6);
+
+// 123***789
 ```
