@@ -26,13 +26,10 @@
   - [bitUpload 上传](directive/bit-upload)
 
 - 管道
-  - [Undefined 未定义](pipe/undefined)
-  - [EmptyArray 空数组](pipe/empty-array)
-  - [EmptyObject 空对象](pipe/empty-object)
+  - [Empty 空判断](pipe/empty)
   - [Split 字符串分割为数组](pipe/split)
   - [Join 数组拼接为字符串](pipe/join)
-  - [Locale 语言包显示](pipe/locale)
-  - [JSONParse 字符串转对象](pipe/json-parse)
+  - [object 转换对象](pipe/object)
   - [Privacy 字符串脱敏](pipe/privacy)
 
 - 生产

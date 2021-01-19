@@ -1,14 +1,14 @@
-## EmptyObject 空对象
+## Empty 空判断
 
-通过管道判断对象是否为空
+通过管道判断数值是否为空
 
 ```
-{{ value_expression | EmptyObject }}
+{{ value_expression | Empty }}
 ```
 
 ### 输入值
 
-- **value** `any` 对象
+- **value** `any` 任何
 
 ### 返回
 
@@ -16,7 +16,7 @@
 
 ### 使用说明
 
-假设存在一个空对象 `data`
+假设存在一个空数组 `lists`（`undefined` `''` `0` `false` `null` `[]` `{}` 都被判断为空）
 
 ```typescript
 import { Component, OnInit } from '@angular/core';
@@ -27,7 +27,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent implements OnInit {
-  data: any = {};
+  lists: any[] = [];
 
   ngOnInit(): void {
   }
@@ -38,9 +38,7 @@ export class WelcomeComponent implements OnInit {
 在模版中判断使用
 
 ```html
-<div *ngIf="data|EmptyObject">
-  <!-- 对象为空显示内容 -->
+<div *ngIf="lists|Empty">
+  <!-- 数组为空显示内容 -->
 </div>
 ```
-
-!> 当对象为空数组同样会返回 `false`
