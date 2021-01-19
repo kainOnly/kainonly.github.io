@@ -2,7 +2,7 @@
 
 易用的 Angular 辅助层框架
 
-[![npm](https://img.shields.io/npm/v/ngx-bit/v9-lts.svg?style=flat-square)](https://ngx-bit.kainonly.com/v/9)
+[![npm](https://img.shields.io/npm/v/ngx-bit/v10-lts.svg?style=flat-square)](https://ngx-bit.kainonly.com/v/10)
 [![Downloads](https://img.shields.io/npm/dm/ngx-bit.svg?style=flat-square)](https://www.npmjs.com/package/ngx-bit)
 [![npm](https://img.shields.io/npm/dt/ngx-bit.svg?style=flat-square)](https://www.npmjs.com/package/ngx-bit)
 [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-blue.svg?style=flat-square)](https://www.typescriptlang.org/)
@@ -52,6 +52,15 @@ const bit = factoryBitConfig({
     namespace: '/system',
     upload: '/system/main/uploads',
     withCredentials: true
+  },
+  curd: {
+    get: '/get',
+    lists: '/lists',
+    originLists: '/originLists',
+    add: '/add',
+    edit: '/edit',
+    status: '/edit',
+    delete: '/delete'
   },
   col: {
     label: {

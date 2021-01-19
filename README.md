@@ -38,13 +38,25 @@ ng add ng-zorro-antd
 ng add ngx-bit
 ```
 
+还可以设置为PWA项目
+
+```shell
+ng add @angular/pwa
+```
+
+按需安装第三方组件，示例用到 `BitSupportService` `BitSwalService`，以及 `ngx-perfect-scrollbar`
+
+```shell
+npm install @ngx-pwa/local-storage sweetalert2 ngx-perfect-scrollbar -S
+```
+
 配置项目环境，修改文件 `src\environments\environment.ts`
 
 ```typescript
 import { en_US, zh_CN } from 'ng-zorro-antd';
-import { factoryBitConfig } from 'ngx-bit/operates';
+import { BitConfig } from 'ngx-bit/types';
 
-const bit = factoryBitConfig({
+const bit: BitConfig = {
   url: {
     api: 'http://localhost:9501',
     static: 'https://cdn.example.com/',
@@ -52,8 +64,12 @@ const bit = factoryBitConfig({
   },
   api: {
     namespace: '/system',
+    withCredentials: true,
     upload: '/system/main/uploads',
-    withCredentials: true
+    uploadStorage: 'default',
+    uploadFetchSigned: '<if oss obs cos>',
+    uploadFetchSignedMethod: '<if oss obs cos>',
+    uploadSize: 5120
   },
   curd: {
     get: '/get',
@@ -119,7 +135,7 @@ const bit = factoryBitConfig({
     ]
   },
   page: 20
-});
+};
 
 export const environment = {
   production: false,
@@ -227,6 +243,12 @@ export class AppExtModule {
       "@common/*": [
         "src/app/common/*"
       ],
+      "@api": [
+        "src/app/api"
+      ],
+      "@api/*": [
+        "src/app/api/*"
+      ],
       "@ext": [
         "src/app/app.ext.module.ts"
       ]
@@ -239,75 +261,82 @@ export class AppExtModule {
 
 ```typescript
 export default {
+  // The Dashboard Language Pack
   dashboard: ['仪表盘', 'Dashboard'],
   language: ['中文', 'English'],
   center: ['个人中心', 'Center'],
   profile: ['信息修改', 'Profile'],
   exit: ['退出系统', 'Exit'],
+
+  // The Common Language Pack
   add: ['新增', 'Add'],
-  success: ['执行成功', 'Success'],
-  failed: ['执行失败', 'Failed'],
-  back: ['返回', 'Back'],
+  edit: ['编辑', 'Edit'],
+  delete: ['删除', 'Delete'],
   submit: ['提交', 'Submit'],
   reset: ['重置', 'Reset'],
   cancel: ['取消', 'Cancel'],
+  back: ['返回', 'Back'],
   status: ['状态', 'Status'],
-  edit: ['编辑', 'Edit'],
-  delete: ['删除', 'Delete'],
-  refreshLists: ['刷新列表', 'Refresh Lists'],
-  bulkDelete: ['批量删除', 'Bulk Delete'],
   on: ['开启', 'On'],
   off: ['冻结', 'Off'],
   yes: ['是', 'Yes'],
   no: ['否', 'No'],
-  validating: ['正在验证...', 'Validating...'],
   action: ['操作', 'Action'],
-  notice: ['通知', 'Notification'],
   upload: ['上传', 'Upload'],
-  uploadSuccess: ['上传成功', 'Upload Success'],
-  uploadError: ['上传失败', 'Upload Failed'],
-  updateSuccess: ['更新成功', 'Update Success'],
-  updateError: ['更新失败', 'Update Failed'],
-  updateErrorMsg: ['当前网络繁忙请稍后再试', 'The current network is busy please try again later'],
-  updateSuccessMsg: ['已为您更新该数据状态', 'Thought you update this data state'],
-  sort: ['排序', 'Sort'],
-  form: ['表单信息', 'Form Infomation'],
-  operateInfo: ['操作提示', 'Info'],
-  operateSuccess: ['操作成功', 'Success'],
-  addSuccess: ['数据已新增成功', 'Data has been added successfully'],
-  addFailed: ['数据新增失败', 'Data addition failed'],
-  addSuccessMsg: ['您是否要继续新增?', 'would you want to continue?'],
-  editSuccess: ['数据修改成功', 'Data modification succeeded'],
-  editFailed: ['数据修改失败', 'Data modification failed'],
-  editSuccessMsg: ['您是否要继续修改?', 'would you want to continue?'],
-  operateBack: ['返回列表', 'back'],
-  addContinue: ['继续新增', 'continue'],
-  editContinue: ['继续修改', 'continue'],
-  operateError: ['操作失败', 'Failed'],
-  operateOk: ['好的', 'ok'],
-  operateWarning: ['操作警告', 'Warn'],
-  deleteWarning: ['您确定要执行删除?', 'You are sure to delete?'],
-  deleteCancel: ['再想想', 'Think Again'],
-  deleteYes: ['确认删除', 'Confirm Deletion'],
-  deleteSuccess: ['数据已被删除', 'Data has been deleted'],
-  deleteError: ['请求错误，数据删除失败', 'Request error, data deletion failed'],
-  sortYes: ['确认排序', 'Submit Sort'],
-  sortCancel: ['取消排序', 'Cancel Sort'],
-  sortSuccess: ['数据排序成功', 'Successful data sorting'],
-  sortError: ['请求错误，数据排序失败', 'Request error, data sorting failed'],
-  selected: ['选中', 'Selected'],
-  items: ['项目', 'items'],
+  refreshLists: ['刷新列表', 'Refresh Lists'],
   clearSearch: ['清除搜索', 'Clear Search'],
-  noResult: ['当前列表无数据', 'No data in current list'],
-  i18n: ['多语言输入框', 'a multilingual input box'],
-  noTips: ['无提示', 'No prompt'],
-  statusSuccess: ['状态已更新成功', 'Status updated successfully'],
-  statusError: ['请求错误，状态更新失败', 'Request error, status update failed'],
-  logout: ['登出提示', 'Logout Response'],
-  logoutSuccess: ['登出成功', 'Logout Success'],
-  timeout: ['超时登出', 'Timeout'],
-  timeoutWarning: ['您的登录已超时，请重新登录', 'Your login has timed out, please log in again'],
-  rbacError: ['您没有权限或该权限已被关闭', 'You don\'t have permission or the permission has been turned off']
+  bulkDelete: ['批量删除', 'Bulk Delete'],
+
+  // The Notification or Message Language Pack
+  success: ['操作成功', 'Operation Success'],
+  error: ['操作失败', 'Operation Failed'],
+  updateSuccess: ['您的请求提交成功，已更新数据内容', 'Your request was submitted successfully and the data content has been updated'],
+  updateDelete: ['您的请求提交异常，请稍后再试', 'Your request submission is abnormal, please try again later'],
+  deleteSuccess: ['您的请求提交成功，该数据已被删除', 'Your request was submitted successfully and the data has been deleted'],
+  deleteError: ['您的请求提交异常，请稍后再试', 'Your request submission is abnormal, please try again later'],
+  uploadSuccess: ['您的文件已上传完毕', 'Your file has been uploaded'],
+  uploadError: ['您的文件未能上传，请稍后再试', 'Your file failed to upload, please try again later'],
+  auth: ['认证提示', 'Authorization Information'],
+  authLogout: ['您已退出管理系统', 'You have logged out of the management system'],
+  authInvalid: ['您的登录认证失效，请重新登录', 'Your login authentication is invalid, please log in again'],
+  roleError: ['您没有权限加载此模块或当前模块已被屏蔽', `You do not have permission to load this module or the current module has been blocked`],
+
+  // The Tooltip Language Pack
+  I18nNoTip: ['无提示', 'No prompt'],
+  i18nTip: ['多语言输入框', 'A multilingual input box'],
+
+  // The Async Validate
+  validating: ['正在验证...', 'Validating...'],
+
+  // The Status Language Pack
+  StatusSuccess: ['您的请求提交成功，已更新数据状态', 'Your request was submitted successfully and the data status has been updated'],
+  StatusError: ['您的请求提交异常，请稍后再试', 'Your request submission is abnormal, please try again later'],
+
+  // The Alert Language Pack
+  AddAlertSuccessTitle: ['操作成功', 'Operation Success'],
+  AddAlertSuccessContent: [
+    '表单数据已提交完成，您是否要继续执行新增操作？',
+    'The form data has been submitted. Do you want to continue with the new operation?'
+  ],
+  AddAlertSuccessOk: ['继续新增', 'Continue'],
+  AddAlertSuccessCancel: ['返回列表', 'Back to list'],
+  AddAlertErrorTitle: ['操作失败', 'Operation Failed'],
+  AddAlertErrorContent: ['表单数据提交异常，请稍后再试', 'Form data submission exception, please try again later'],
+  AddAlertErrorOk: ['好的', 'Ok'],
+  EditAlertSuccessTitle: ['操作成功', 'Operation Success'],
+  EditAlertSuccessContent: [
+    '表单数据已提交完成，你是否要继续执行编辑操作？',
+    'The form data has been submitted. Do you want to continue with the new operation?'
+  ],
+  EditAlertSuccessOk: ['继续编辑', 'Continue'],
+  EditAlertSuccessCancel: ['返回列表', 'Back to list'],
+  EditAlertErrorTitle: ['操作失败', 'Operation Failed'],
+  EditAlertErrorContent: ['表单数据提交异常，请稍后再试', 'Form data submission exception, please try again later'],
+  EditAlertErrorOk: ['好的', 'Ok'],
+  DeleteAlertTitle: ['请求确认', 'Operation Question'],
+  DeleteAlertContent: ['您确认删除当前数据吗？', 'Are you sure to delete the current data?'],
+  DeleteAlertOk: ['确认删除', 'Confirm'],
+  DeleteAlertCancel: ['再想想', 'Think again']
 };
 ```
 
@@ -321,7 +350,7 @@ ng g component pages/welcome --skip-import
 ng g component pages/empty --skip-import
 ```
 
-编写主服务（需根据后端实际情况更改），修改文件 `src\app\common\main.service.ts`
+编写主服务（需根据后端实际情况更改），修改文件 `src\app\api\main.service.ts`
 
 ```typescript
 import { Injectable } from '@angular/core';
@@ -415,7 +444,7 @@ export class MainService {
 ```typescript
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { MainService } from '@common/main.service';
+import { MainService } from '@api/main.service';
 import { map } from 'rxjs/operators';
 
 @Injectable()
@@ -446,7 +475,7 @@ import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, ChangeDetectorRef
 import { ActivatedRoute, Router } from '@angular/router';
 import { BitService, BitEventsService, BitSupportService } from 'ngx-bit';
 import { NzNotificationService } from 'ng-zorro-antd';
-import { MainService } from '@common/main.service';
+import { MainService } from '@api/main.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -506,7 +535,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
       this.support.clearStorage();
       this.support.unsubscribe();
       this.router.navigateByUrl('/login');
-      this.notification.success(this.bit.l.logout, this.bit.l.logoutSuccess);
+      this.notification.info(this.bit.l.auth, this.bit.l.authLogout);
     });
   }
 }
@@ -515,109 +544,120 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 修改模板文件 `src\app\dashboards\dashboards.component.html`
 
 ```html
-<nz-layout class="dashboard-layout">
-  <nz-sider nzCollapsible
-            [(nzCollapsed)]="collapsed"
-            [nzBreakpoint]="'lg'">
-    <ul nz-menu
-        [nzTheme]="'dark'"
-        [nzInlineCollapsed]="collapsed"
-        [nzMode]="collapsed?'vertical':'inline'">
-      <ng-container *ngTemplateOutlet="navTpl; context: {$implicit: navLists}"></ng-container>
-      <ng-template #navTpl let-navs>
-        <ng-container *ngFor="let x of navs">
-          <ng-container *ngIf="x.router;else notRouter">
-            <li nz-menu-item
-                [bitOpen]="[x.key]"
-                [nzSelected]="support.navActive.indexOf(x.key)!==-1">
-              <i nz-icon [nzType]="x.icon"></i>
-              <span class="nav-text">{{x.name|Locale:bit.locale}}</span>
-            </li>
-          </ng-container>
-          <ng-template #notRouter>
-            <li nz-submenu
-                [nzOpen]="support.navActive.indexOf(x.key)!==-1">
-              <span title><i nz-icon [nzType]="x.icon"></i><span>{{x.name|Locale:bit.locale}}</span></span>
-              <ul>
-                <ng-container *ngTemplateOutlet="navTpl; context: {$implicit: x.children}"></ng-container>
-              </ul>
-            </li>
+<nz-layout class="main-layout">
+  <perfect-scrollbar class="main-scrollbar">
+    <nz-sider nzCollapsible [(nzCollapsed)]="collapsed" [nzBreakpoint]="'lg'">
+      <perfect-scrollbar class="sider-scrollbar">
+        <ul
+          nz-menu
+          [nzTheme]="'dark'"
+          [nzInlineCollapsed]="collapsed"
+          [nzMode]="collapsed ? 'vertical' : 'inline'"
+        >
+          <ng-container *ngTemplateOutlet="navTpl; context: { $implicit: navLists }"></ng-container>
+          <ng-template #navTpl let-navs>
+            <ng-container *ngFor="let x of navs">
+              <ng-container *ngIf="x.router; else notRouter">
+                <li
+                  nz-menu-item
+                  [bitOpen]="[x.key]"
+                  [nzSelected]="support.navActive.indexOf(x.key) !== -1"
+                >
+                  <i nz-icon [nzType]="x.icon"></i>
+                  <span class="nav-text">{{ x.name | object: bit.locale }}</span>
+                </li>
+              </ng-container>
+              <ng-template #notRouter>
+                <li nz-submenu [nzOpen]="support.navActive.indexOf(x.key) !== -1">
+                  <span title>
+                    <i nz-icon [nzType]="x.icon"></i>
+                    <span>{{ x.name | object: bit.locale }}</span>
+                  </span>
+                  <ul>
+                    <ng-container
+                      *ngTemplateOutlet="navTpl; context: { $implicit: x.children }"
+                    ></ng-container>
+                  </ul>
+                </li>
+              </ng-template>
+            </ng-container>
           </ng-template>
-        </ng-container>
-      </ng-template>
-    </ul>
-  </nz-sider>
-  <nz-layout>
-    <ul class="header" nz-menu
-        [nzMode]="'horizontal'"
-        [nzSelectable]="false">
-      <li nz-menu-item routerLink="/">
-        <i nz-icon nzType="dashboard"></i> {{bit.l['dashboard']}}
-      </li>
-
-      <li nz-submenu>
-        <span title>
-          <i nz-icon nzType="translation"></i>
-          {{bit.l['language']}}
-        </span>
-        <ul>
-          <li nz-menu-item (click)="bit.setLocale('zh_cn')">
-            <a title><b>中文</b></a>
-          </li>
-          <li nz-menu-item (click)="bit.setLocale('en_us')">
-            <a title><b>English</b></a>
-          </li>
         </ul>
-      </li>
+      </perfect-scrollbar>
+    </nz-sider>
+    <nz-layout class="right-layout" [ngClass]="{'collapsed':collapsed}">
+      <ul #header nz-menu [nzMode]="'horizontal'" [nzSelectable]="false">
+        <li nz-menu-item routerLink="/">
+          <i nz-icon nzType="dashboard"></i> {{ bit.l["dashboard"] }}
+        </li>
 
-      <li style="float: right" nz-submenu>
-        <span title>
-          <i nz-icon nzType="user"></i>
-          {{bit.l['center']}}
-        </span>
-        <ul>
-          <li nz-menu-item routerLink="/{profile}">
-            <a title><i nz-icon nzType="idcard"></i> {{bit.l['profile']}}</a>
-          </li>
-          <li nz-menu-item (click)="logout()">
-            <a title><i nz-icon nzType="logout"></i> {{bit.l['exit']}}</a>
-          </li>
-        </ul>
-      </li>
-    </ul>
-    <nz-content>
-      <nz-page-header
-        [nzTitle]="support.title|Locale:bit.locale"
-        [nzSubtitle]="!support.subTitle?null:support.subTitle"
-        [nzBackIcon]="!support.back?null:''"
-        (nzBack)="bit.back()"
-      >
-        <nz-breadcrumb [nzSeparator]="breadcrumbIcon" nz-page-header-breadcrumb>
-          <ng-template #breadcrumbIcon>
-            <i nz-icon nzType="right"></i>
-          </ng-template>
-          <nz-breadcrumb-item>
-            <a routerLink="/">{{bit.l['dashboard']}}</a>
-          </nz-breadcrumb-item>
-          <nz-breadcrumb-item *ngFor="let x of support.breadcrumb;last as islast">
-            <ng-container *ngIf="islast;else notLast">{{x.name|Locale:bit.locale}}</ng-container>
-            <ng-template #notLast>
-              <a *ngIf="x.router;else notRouterlink" [bitCrossLevel]="x.key">
-                {{x.name|Locale:bit.locale}}
-              </a>
-              <ng-template #notRouterlink>{{x.name|Locale:bit.locale}}</ng-template>
+        <li nz-submenu>
+          <span title>
+            <i nz-icon nzType="translation"></i>
+            {{ bit.l["language"] }}
+          </span>
+          <ul>
+            <li nz-menu-item (click)="bit.setLocale('zh_cn')">
+              <a title>中文</a>
+            </li>
+            <li nz-menu-item (click)="bit.setLocale('en_us')">
+              <a title>English</a>
+            </li>
+          </ul>
+        </li>
+
+        <li style="float: right" nz-submenu nzMenuClassName="center-submenu">
+          <span title>
+            <i nz-icon nzType="user"></i>
+            {{ bit.l["center"] }}
+          </span>
+          <ul>
+            <li nz-menu-item routerLink="/{profile}">
+              <a title><i nz-icon nzType="idcard"></i> {{ bit.l["profile"] }}</a>
+            </li>
+            <li nz-menu-item (click)="logout()">
+              <a title><i nz-icon nzType="logout"></i> {{ bit.l["exit"] }}</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <nz-content>
+        <ng-container *ngTemplateOutlet="support.banner"></ng-container>
+        <nz-page-header
+          [nzTitle]="support.title | object: bit.locale"
+          [nzSubtitle]="!support.subTitle ? null : support.subTitle"
+          [nzBackIcon]="!support.back ? null : ''"
+          (nzBack)="bit.back()"
+        >
+          <nz-breadcrumb [nzSeparator]="breadcrumbIcon" nz-page-header-breadcrumb>
+            <ng-template #breadcrumbIcon>
+              <i nz-icon nzType="right"></i>
             </ng-template>
-          </nz-breadcrumb-item>
-        </nz-breadcrumb>
-        <nz-page-header-extra>
-          <ng-container *ngTemplateOutlet="support.actions"></ng-container>
-        </nz-page-header-extra>
-      </nz-page-header>
-      <div class="app-warpper">
-        <router-outlet></router-outlet>
-      </div>
-    </nz-content>
-  </nz-layout>
+            <nz-breadcrumb-item>
+              <a routerLink="/">{{ bit.l["dashboard"] }}</a>
+            </nz-breadcrumb-item>
+            <nz-breadcrumb-item *ngFor="let x of support.breadcrumb; last as islast">
+              <ng-container *ngIf="islast; else notLast">
+                {{ x.name | object: bit.locale }}
+              </ng-container>
+              <ng-template #notLast>
+                <a *ngIf="x.router; else notRouterlink" [bitCrossLevel]="x.key">
+                  {{ x.name | object: bit.locale }}
+                </a>
+                <ng-template #notRouterlink>{{ x.name | object: bit.locale }}</ng-template>
+              </ng-template>
+            </nz-breadcrumb-item>
+          </nz-breadcrumb>
+          <nz-page-header-extra>
+            <ng-container *ngTemplateOutlet="support.actions"></ng-container>
+          </nz-page-header-extra>
+        </nz-page-header>
+        <div #warpper class="app-warpper">
+          <router-outlet></router-outlet>
+        </div>
+      </nz-content>
+    </nz-layout>
+  </perfect-scrollbar>
 </nz-layout>
 ```
 
@@ -630,38 +670,44 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     line-height: 64px;
     padding: 0 24px;
     cursor: pointer;
-    transition: color .3s;
+    transition: color 0.3s;
 
     &:hover {
       color: #1890ff;
     }
   }
+}
 
-  .logo {
-    height: 64px;
-    line-height: 64px;
-    font-size: 16px;
-    white-space: nowrap;
-    color: #fff;
-    padding-left: 22px;
-    background: #002140;
-    overflow: hidden;
+.main-layout {
+  height: 100%;
+  overflow: hidden;
 
-    img {
-      width: 32px;
-      height: 32px;
-    }
+  .main-scrollbar {
+    height: 100%;
+  }
+}
 
-    nz-divider {
-      opacity: 0.6;
-      margin: 0 12px;
-    }
+nz-sider {
+  overflow: hidden;
+  height: 100%;
+  position: fixed;
+  left: 0;
+
+  .sider-scrollbar {
+    height: 100%;
+    padding-bottom: 48px;
   }
 }
 
 nz-layout {
-  &.dashboard-layout {
-    height: 100%;
+
+  &.right-layout {
+    transition: margin-left .2s;
+    margin-left: 200px;
+  }
+
+  &.collapsed {
+    margin-left: 80px;
   }
 }
 
@@ -683,8 +729,8 @@ nz-content {
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NzNotificationService } from 'ng-zorro-antd';
-import { MainService } from '@common/main.service';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { MainService } from '@api/main.service';
 import { BitService, BitSupportService } from 'ngx-bit';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { switchMap } from 'rxjs/operators';
@@ -699,32 +745,22 @@ export class LoginComponent implements OnInit {
   users: any[] = [];
 
   constructor(
+    public bit: BitService,
     private mainService: MainService,
     private notification: NzNotificationService,
     private router: Router,
     private fb: FormBuilder,
-    public bit: BitService,
     private support: BitSupportService,
     private storageMap: StorageMap
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.bit.registerLocales(import('./language'));
     this.form = this.fb.group({
-      username: [null, [
-        Validators.required,
-        Validators.minLength(4),
-        Validators.maxLength(20)]
-      ],
-      password: [null, [
-        Validators.required,
-        Validators.minLength(12),
-        Validators.maxLength(20)]
-      ],
-      remember: [1, [
-        Validators.required
-      ]]
+      username: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
+      password: [null, [Validators.required, Validators.minLength(12), Validators.maxLength(20)]],
+      remember: [1, [Validators.required]]
     });
     this.storageMap.get('users').subscribe((data: Set<string>) => {
       if (data) {
@@ -733,37 +769,23 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  submit(data: any) {
+  submit(data: any): void {
     this.mainService.login(data.username, data.password).subscribe(res => {
       if (!res.error) {
         this.support.clearStorage();
         if (data.remember) {
-          this.storageMap.get('users').pipe(
-            switchMap((lists: Set<string>) =>
-              this.storageMap.set(
-                'users',
-                lists ? lists.add(data.username) : new Set([data.username])
-              )
+          this.storageMap
+            .get('users')
+            .pipe(
+              switchMap((lists: Set<string>) => this.storageMap.set('users', lists ? lists.add(data.username) : new Set([data.username])))
             )
-          ).subscribe(() => {
-          });
+            .subscribe(() => {
+            });
         }
-        this.storageMap.set('currentUsername', data.username).subscribe(() => {
-          // ok
-        });
-        this.storageMap.set('loginTime', new Date().toISOString()).subscribe(() => {
-          // ok
-        });
-        this.notification.success(
-          this.bit.l.loginTips,
-          this.bit.l.loginSuccess
-        );
+        this.notification.success(this.bit.l.auth, this.bit.l.loginSuccess);
         this.router.navigateByUrl('/');
       } else {
-        this.notification.error(
-          this.bit.l.loginTips,
-          this.bit.l.loginFailed
-        );
+        this.notification.error(this.bit.l.auth, this.bit.l.loginError);
       }
     });
   }
@@ -782,9 +804,8 @@ export default {
   passwordCorrectly: ['请输入格式正确的口令', 'Please Enter Correctly Password'],
   login: ['登录', 'Login'],
   loginRemember: ['记住帐户登录', 'Remember account login'],
-  loginTips: ['登录操作', 'Login Response'],
-  loginFailed: ['您的登录失败，请确实账户口令是否正确', 'Your login failed. Please confirm that the account password is correct'],
-  loginSuccess: ['登录成功', 'Login Success'],
+  loginSuccess: ['登录成功，正在加载数据~', 'Successful login, data is being loaded~'],
+  loginError: ['您的登录失败，请确实账户口令是否正确', 'Your login failed. Please confirm that the account password is correct']
 };
 ```
 
@@ -1040,16 +1061,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import zh from '@angular/common/locales/zh';
-import { NZ_I18N, zh_CN } from 'ng-zorro-antd';
-import { NgxBitModule } from 'ngx-bit';
 import { environment } from '@env';
+import { NZ_I18N, zh_CN } from 'ng-zorro-antd/i18n';
 import { StorageModule } from '@ngx-pwa/local-storage';
+import { NZ_CONFIG, NzConfig } from 'ng-zorro-antd/core/config';
+import { BitConfigService, BitEventsService, BitHttpService, BitService, BitSupportService, BitSwalService } from 'ngx-bit';
+import { PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 registerLocaleData(zh);
 
 import { AppComponent } from './app.component';
-import { MainService } from '@common/main.service';
+import { MainService } from '@api/main.service';
 import { TokenService } from '@common/token.service';
 import { AppExtModule } from '@ext';
 
@@ -1066,6 +1090,23 @@ const routes: Routes = [
   }
 ];
 
+const ngZorroConfig: NzConfig = {
+  notification: { nzPlacement: 'bottomRight' }
+};
+
+const bitConfig = () => {
+  const env = environment.bit;
+  const service = new BitConfigService();
+  Reflect.ownKeys(env).forEach(key => {
+    service[key] = env[key];
+  });
+  return service;
+};
+
+const perfectBar: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true
+};
+
 @NgModule({
   declarations: [
     AppComponent
@@ -1075,18 +1116,41 @@ const routes: Routes = [
     BrowserAnimationsModule,
     HttpClientModule,
     AppExtModule,
-    NgxBitModule.forRoot(environment.bit),
+    PerfectScrollbarModule,
     RouterModule.forRoot(routes, { useHash: true }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     StorageModule.forRoot({ IDBNoWrap: false })
   ],
   providers: [
-    MainService,
+    // Common Service
     TokenService,
-    { provide: NZ_I18N, useValue: zh_CN }
+
+    // API Service
+    MainService,
+
+    // Library Service
+    NzIconService,
+    BitService,
+    BitHttpService,
+    BitEventsService,
+    BitSupportService,
+    BitSwalService,
+    { provide: NZ_CONFIG, useValue: ngZorroConfig },
+    { provide: NZ_I18N, useValue: zh_CN },
+    { provide: BitConfigService, useFactory: bitConfig },
+    { provide: PERFECT_SCROLLBAR_CONFIG, useValue: perfectBar }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
+  constructor(
+    config: BitConfigService,
+    nzIconService: NzIconService
+  ) {
+    if (config.url.icon) {
+      nzIconService.changeAssetsSource(config.url.icon);
+    }
+  }
 }
 ```
 
