@@ -11,6 +11,7 @@
   - [bit-i18n-tooltip 多语言提示](component/bit-i18n-tooltip)
   - [bit-error-tip 验证错误提示](component/bit-error-tip)
   - [bit-header 页头填充](component/bit-header)
+  - [bit-print 模板组件](component/bit-print)
 
 - 指令
   - [bitBack 返回上一级](directive/bit-back)
@@ -30,6 +31,7 @@
   - [Split 字符串分割为数组](pipe/split)
   - [Join 数组拼接为字符串](pipe/join)
   - [object 转换对象](pipe/object)
+  - [Print 字符串模板](pipe/print)
   - [Privacy 字符串脱敏](pipe/privacy)
 
 - 生产
