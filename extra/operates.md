@@ -95,7 +95,7 @@ let schema = getQuerySchema([
 // console: []
 
 schema = getQuerySchema([
-    { field: 'username', op: '=', value: '', must: true }
+    { field: 'username', op: '=', value: '', exclude: [0, null] }
 ]);
 
 // console: ['username', '=', '']]
