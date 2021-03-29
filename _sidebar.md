@@ -15,7 +15,7 @@
 
 - 指令
   - [bitBack 返回上一级](directive/bit-back)
-  - [bitCrossLevel 跨级导航](directive/bit-cross-level)
+  - [bitHistory 历史导航](directive/bit-history)
   - [bitCol 栅格标识](directive/bit-col)
   - [bitFormSubmit 表单提交](directive/bit-form-submit)
   - [bitI18nUpdate 多语言输入更新](directive/bit-i18n-update)
@@ -39,6 +39,7 @@
   - [ListByPage 分页列表](factory/list-by-page)
 
 - Change Log
+  - [11.2.0](changelog/11.2.0)
   - [11.1.1](changelog/11.1.1)
   - [11.1.0](changelog/11.1.0)
   - [11.0.1](changelog/11.0.1)

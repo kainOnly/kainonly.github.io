@@ -83,9 +83,9 @@ BitService 是辅助架构中的助手工具，以下示例中 `bit` 为 `BitSer
 bit.open(['admin-edit', 1]);
 ```
 
-### crossLevel(selector: string)
+### history(key: string)
 
-路由跨级导航，当执行跨越导航时没有更好的方式记录其参数，此时配合 `open` 与 `crossLevel` 就能解决问题，例如：
+路由历史导航，加载被历史缓存的参数导航，例如：
 
 - **selector** `string` 路由标签
 
@@ -94,11 +94,9 @@ bit.open(['admin-edit', 1]);
 bit.open(['team-index', 1]);
 // 再从/{team-index}/1导航至/{team-index}/1/services/T100
 bit.open(['team-index', 1, 'services', 'T100'])
-// 此时使用crossLevel，可导航至/{team-index}/1
-bit.crossLevel('team-index');
+// 此时使用history，可导航至/{team-index}/1
+bit.history('team-index');
 ```
-
-!> 当然这种场景是极少的，返回上一级有时可以解决问题，但特殊的面包屑就需要使用跨级导航，因此不建议采用这么深的层级构建导航路径
 
 ### back()
 

@@ -116,27 +116,6 @@ schema = getQuerySchema([
 // console: []
 ```
 
-### getSelectorFormUrl(url: string, match: any[])
-
-通过URL获取路由标签
-
-- **url** `string` URL地址
-- **match** `any[]` 筛选规则
-
-```typescript
-let key = getSelectorFormUrl('/%7Bacl-index%7D', ['%7B', '%7D']);
-
-// console: acl-index
-
-key = getSelectorFormUrl('/%7Bacl-edit%7D/1', ['%7B', '%7D']);
-
-// console: acl-edit
-
-key = getSelectorFormUrl('/%7Bacl-edit%7D/1/2', ['%7B', '%7D']);
-
-// console: acl-edit
-```
-
 ### print(str: string, ...vars: any): string
 
 字符串模板，可适用于多语言模板
