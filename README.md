@@ -612,7 +612,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
             {{ bit.l["center"] }}
           </span>
           <ul>
-            <li nz-menu-item routerLink="/{profile}">
+            <li nz-menu-item routerLink="/profile">
               <a title><i nz-icon nzType="idcard"></i> {{ bit.l["profile"] }}</a>
             </li>
             <li nz-menu-item (click)="logout()">
@@ -1032,7 +1032,7 @@ const routes: Routes = [
         loadChildren: () => import('./pages/welcome/welcome.module').then(m => m.WelcomeModule)
       },
       {
-        path: '{empty}',
+        path: 'empty',
         loadChildren: () => import('./pages/empty/empty.module').then(m => m.EmptyModule)
       }
     ]
