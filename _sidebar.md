@@ -39,6 +39,7 @@
   - [ListByPage 分页列表](factory/list-by-page)
 
 - Change Log
+  - [11.3.0](changelog/11.3.0)
   - [11.2.0](changelog/11.2.0)
   - [11.1.1](changelog/11.1.1)
   - [11.1.0](changelog/11.1.0)
