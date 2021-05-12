@@ -2,13 +2,13 @@
 
 ## BitConfigService 统一配置
 
-辅助框架统一配置管理的服务，配置需要修改环境配置文件 `src\environments\environment.ts`
+BitConfigService 是辅助框架统一配置管理的服务，配置则需要修改环境配置文件 `src\environments\environment.ts`
 
 ```typescript
 import { en_US, zh_CN } from "ng-zorro-antd";
-import { BitConfig } from "ngx-bit/types";
+import { factoryBitConfig } from "ngx-bit/operates";
 
-const bit: BitConfig = {
+const bit = factoryBitConfig({
   url: {
     api: "http://localhost:9501",
     static: "https://cdn.example.com/",
@@ -16,12 +16,8 @@ const bit: BitConfig = {
   },
   api: {
     namespace: "/system",
-    withCredentials: true,
     upload: "/system/main/uploads",
-    uploadStorage: "default",
-    uploadFetchSigned: "<if oss obs cos>",
-    uploadFetchSignedMethod: "<if oss obs cos>",
-    uploadSize: 5120,
+    withCredentials: true,
   },
   curd: {
     get: "/get",
@@ -87,7 +83,7 @@ const bit: BitConfig = {
     ],
   },
   page: 20,
-};
+});
 
 export const environment = {
   production: false,
@@ -95,29 +91,31 @@ export const environment = {
 };
 ```
 
+### 生产 BitConfigService
+
+- factoryBitConfig(config: BitConfig)
+
+生产 `BitConfigService` 所需的必要配置，通常使用在环境配置文件中，例如 `src\environments\environment.ts`
+
 ### 基本属性
 
-| 属性                          | 说明                                      | 类型                          | 默认值      |
-| ----------------------------- | ----------------------------------------- | ----------------------------- | ----------- |
-| `url.api`                     | 接口地址                                  | `string`                      | `''`        |
-| `url.static`                  | 静态资源地址                              | `string`                      | `''`        |
-| `url.icon`                    | icon 路径                                 | `string`                      | `undefined` |
-| `api.namespace`               | 接口命名空间                              | `string`                      | `''`        |
-| `api.withCredentials`         | 是否携带 cookie                           | `bool`                        | `false`     |
-| `api.upload`                  | 统一上传路径                              | `string`                      | `''`        |
-| `api.uploadStorage`           | 上传存储                                  | `'default' 'oss' 'obs' 'cos'` | `'default'` |
-| `api.uploadFetchSigned`       | 获取对象存储签名参数的请求                | `string`                      | `''`        |
-| `api.uploadFetchSignedMethod` | 获取对象存储签名参数的请求 Method         | `string`                      | `''`        |
-| `api.uploadSize`              | 上传文件大小限制                          | `number`                      | `5120`      |
-| `curd.*`                      | 请求处理默认 path                         | `string`                      | `''`        |
-| `col.{$key}`                  | 定义统一栅格                              | `object`                      | `{}`        |
-| `i18n.default`                | 多语言输入标识默认状态                    | `string`                      | `''`        |
-| `i18n.contain`                | 多语言输入包含标识                        | `string[]`                    | `[]`        |
-| `i18n.switch`                 | 多语言输入标识详情                        | `I18nOption[]`                | `[]`        |
-| `locale.default`              | 本地语言包标识默认状态                    | `string`                      | `''`        |
-| `locale.mapping`              | 本地语言包标识与语言包文件索引映射        | `Map<number, string>`         | `null`      |
-| `locale.bind`                 | 本地语言包标识与 ng-zorro-antd 语言包映射 | `Map<string, string>`         | `null`      |
-| `page`                        | 分页请求的默认数量                        | `number`                      | `0`         |
+| 属性                  | 说明                                      | 类型                  | 默认值      |
+| --------------------- | ----------------------------------------- | --------------------- | ----------- |
+| `url.api`             | 接口地址                                  | `string`              | `''`        |
+| `url.static`          | 静态资源地址                              | `string`              | `''`        |
+| `url.icon`            | icon 路径                                 | `string`              | `undefined` |
+| `api.namespace`       | 接口命名空间                              | `string`              | `''`        |
+| `api.upload`          | 统一上传路径                              | `string`              | `''`        |
+| `api.withCredentials` | 是否携带 cookie                           | `bool`                | `false`     |
+| `curd.*`              | 请求处理默认 path                         | `string`              | `''`        |
+| `col.{$key}`          | 定义统一栅格                              | `object`              | `{}`        |
+| `i18n.default`        | 多语言输入标识默认状态                    | `string`              | `''`        |
+| `i18n.contain`        | 多语言输入包含标识                        | `string[]`            | `[]`        |
+| `i18n.switch`         | 多语言输入标识详情                        | `I18nOption[]`        | `[]`        |
+| `locale.default`      | 本地语言包标识默认状态                    | `string`              | `''`        |
+| `locale.mapping`      | 本地语言包标识与语言包文件索引映射        | `Map<number, string>` | `null`      |
+| `locale.bind`         | 本地语言包标识与 ng-zorro-antd 语言包映射 | `Map<string, string>` | `null`      |
+| `page`                | 分页请求的默认数量                        | `number`              | `0`         |
 
 - 如果静态资源为远程加载，则可以配置 `url.static`，这样可以通过 `BitService` 快捷的调用远程路径
 - 如果 `url.icon` 不被定义，则会加载本地的 icon 路径；如果被定义则会加载远程地址，例如 `https://cdn.example.com/`
@@ -209,12 +207,12 @@ const bind = new Map<string, any>([
 ]);
 ```
 
-### 安装公共语言包
+### 安装公共语言包 
 
 - setupLocales(packer: Promise<any>)
   - packer `Promise<any>` 导入的语言包文件
 
-通常项目中需要定义公共语言包文件 `app.language.ts`，然后在根组件 `app.component.ts` 初始安装
+安装公共语言包，通常项目中需要定义公共语言包文件 `app.language.ts`，然后在根组件 `app.component.ts` 初始安装
 
 ```typescript
 import { Component, OnInit } from "@angular/core";
@@ -234,12 +232,12 @@ export class AppComponent implements OnInit {
 }
 ```
 
-### 获取公共语言包中的一种语言
+### 获取公共语言包
 
 - getLang(locale: string)
   - locale `string` 语言标识
 
-### 设置请求拦截器
+### 设置请求拦截器 
 
 - setupHttpInterceptor(operate: OperatorFunction<any, any>)
   - operate `OperatorFunction<any, any>` Rxjs 的 operate 工具
@@ -266,18 +264,16 @@ export class AppComponent implements OnInit {
 }
 ```
 
-### 获取请求拦截器
+### 获取请求拦截器 
 
 - getHttpInterceptor()
-  - return `OperatorFunction<any, any>` Rxjs 的 operate 工具
+  - return `OperatorFunction< any, any >` Rxjs 的 operate 工具
 
 ---
 
 ## BitService 助手工具
 
-辅助架构中的助手工具，以下示例中 `bit` 为 `BitService` 服务的注入命名
-
-### 基本属性
+BitService 是辅助架构中的助手工具，以下示例中 `bit` 为 `BitService` 服务的注入命名
 
 | 属性          | 说明                 | 类型                | 默认值 |
 | ------------- | -------------------- | ------------------- | ------ |
@@ -293,22 +289,25 @@ export class AppComponent implements OnInit {
 
 ```html
 <!-- 使用在nzAction -->
-<nz-upload
-  nzName="image"
-  [nzAction]="bit.uploads"
-  [nzWithCredentials]="config.api.withCredentials"
-  [nzSize]="5120"
-  [nzShowUploadList]="false"
->
+<nz-upload 
+    nzName="image"
+    [nzAction]="bit.uploads"
+    [nzWithCredentials]="config.api.withCredentials"
+    [nzSize]="5120"
+    [nzShowUploadList]="false">
 </nz-upload>
 <!-- 使用更简洁的方式实现相同定义 -->
-<nz-upload nzName="image" bitUpload [nzShowUploadList]="false"> </nz-upload>
+<nz-upload 
+    nzName="image"
+    bitUpload
+    [nzShowUploadList]="false">
+</nz-upload>
 ```
 
-- `locale` 为当前多语言标识状态通常使用在 `ObjectPipe`，例如：
+- `locale` 为当前多语言标识状态通常使用在 `LocalePipe`，例如：
 
 ```html
-{{name|object:bit.locale}}
+{{name|Locale:bit.locale}}
 ```
 
 - `l` 为语言包索引，在组件完成语言包注册后可在模板中使用，例如：
@@ -317,20 +316,28 @@ export class AppComponent implements OnInit {
 {{bit.l['dashboards']}}
 ```
 
-- `i18nContain` 为多语言输入类型集合，通常可以用来筛选多语言输入的 ID，例如：
+- `i18nContain` 为多语言输入类型集合，通常可以用来筛选多语言输入的ID，例如：
 
 ```html
 <nz-form-item formGroupName="name">
-  <nz-form-label bitFormLabelCol nzRequired> {{bit.l['name']}} </nz-form-label>
-  <ng-container *ngFor="let x of bit.i18nContain">
-    <nz-form-control *ngIf="bit.equalI18n(x)" bitFormControlCol nzHasFeedback>
-      <input nz-input [formControlName]="x" />
+    <nz-form-label bitFormLabelCol nzRequired>
+        {{bit.l['name']}}
+    </nz-form-label>
+    <ng-container *ngFor="let x of bit.i18nContain">
+    <nz-form-control 
+        *ngIf="bit.equalI18n(x)" 
+        bitFormControlCol 
+        nzHasFeedback>
+        <input 
+            nz-input 
+            [formControlName]="x"
+        />
     </nz-form-control>
-  </ng-container>
+    </ng-container>
 </nz-form-item>
 ```
 
-### 路由导航
+### 路由导航 
 
 - open(urlTree: any[], extras?: NavigationExtras)
   - urlTree `any[]` urlTree
@@ -339,62 +346,65 @@ export class AppComponent implements OnInit {
 `navigate` 路由导航的扩展，为跨级导航作为基础持久记录其路由参数
 
 ```typescript
-bit.open(["admin-edit", 1]);
+bit.open(['admin-edit', 1]);
 ```
 
-### 路由历史
+### 路由跨级导航 
 
-- history(key: string)
+- crossLevel(selector: string)
   - selector `string` 路由标签
 
-路由历史导航，加载被历史缓存的参数导航，例如：
+当执行跨越导航时没有更好的方式记录其参数，此时配合 `open` 与 `crossLevel` 就能解决问题，例如：
 
 ```typescript
 // 假设导航至/{team-index}/1
-bit.open(["team-index", 1]);
+bit.open(['team-index', 1]);
 // 再从/{team-index}/1导航至/{team-index}/1/services/T100
-bit.open(["team-index", 1, "services", "T100"]);
-// 此时使用history，可导航至/{team-index}/1
-bit.history("team-index");
+bit.open(['team-index', 1, 'services', 'T100'])
+// 此时使用crossLevel，可导航至/{team-index}/1
+bit.crossLevel('team-index');
 ```
+
+`*当然这种场景是极少的，返回上一级有时可以解决问题，但特殊的面包屑就需要使用跨级导航，因此不建议采用这么深的层级构建导航路径*`
 
 ### 返回上一级
 
 - back()
 
-返回上一级，并重置 `i18n` 多语言输入标识
-
 ```typescript
 // 导航至/{admin-index}
-bit.open(["admin-index"]);
+bit.open(['admin-index']);
 // 再从/{admin-index}导航至/{admin-edit}/1
-bit.open(["admin-edit", 1]);
+bit.open(['admin-edit', 1]);
 // 返回至/{admin-index}
 bit.back();
 ```
 
-### 局部注册语言包
+### 局部注册语言包 
 
-- registerLocales(packer: Promise<any>)
+- registerLocales(packer: Promise< any >)
+  - packer `Promise< any >` 导入的语言包文件
 
 将局部语言包加工与公共语言包合并，再提供给 `bit.l`，通常文件定义在组件内 `language.ts`
 
-- packer `Promise< any >` 导入的语言包文件
-
 ```typescript
-import { Component, OnInit } from "@angular/core";
-import { BitService } from "ngx-bit";
+import { Component, OnInit } from '@angular/core';
+import { BitService } from 'ngx-bit';
 
 @Component({
-  selector: "app-welcome",
-  templateUrl: "./welcome.component.html",
-  styleUrls: ["./welcome.component.scss"],
+  selector: 'app-welcome',
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent implements OnInit {
-  constructor(public bit: BitService) {}
+
+  constructor(
+    public bit: BitService
+  ) {
+  }
 
   ngOnInit(): void {
-    this.bit.registerLocales(import("./language"));
+    this.bit.registerLocales(import('./language'));
   }
 }
 ```
@@ -404,76 +414,93 @@ export class WelcomeComponent implements OnInit {
 - setLocale(locale: string)
   - locale `string` 语言包标识
 
+即前端显示的多语言
+
 ```typescript
-import { Component, OnInit } from "@angular/core";
-import { BitService } from "ngx-bit";
+import { Component, OnInit } from '@angular/core';
+import { BitService } from 'ngx-bit';
 
 @Component({
-  selector: "app-welcome",
-  templateUrl: "./welcome.component.html",
-  styleUrls: ["./welcome.component.scss"],
+  selector: 'app-welcome',
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent implements OnInit {
-  constructor(public bit: BitService) {}
 
-  ngOnInit(): void {}
+  constructor(
+    public bit: BitService
+  ) {
+  }
+
+  ngOnInit(): void {
+  }
 
   switchToEnglish() {
-    this.bit.setLocale("en_us");
+    this.bit.setLocale('en_us');
   }
 }
 ```
 
-### 生成分页列表对象
+### 生成分页列表对象 
 
 - listByPage(option: ListByPageOption): ListByPage
   - option `ListByPageOption` 分页列表参数
 
 ```typescript
-import { Component, OnInit } from "@angular/core";
-import { BitService } from "ngx-bit";
-import { ListByPage } from "ngx-bit/factory";
+import { Component, OnInit } from '@angular/core';
+import { BitService } from 'ngx-bit';
+import { ListByPage } from 'ngx-bit/factory';
 
 @Component({
-  selector: "app-welcome",
-  templateUrl: "./welcome.component.html",
-  styleUrls: ["./welcome.component.scss"],
+  selector: 'app-welcome',
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent implements OnInit {
   lists: ListByPage;
 
-  constructor(public bit: BitService) {}
+  constructor(
+    public bit: BitService
+  ) {
+  }
 
   ngOnInit(): void {
     this.lists = this.bit.listByPage({
-      id: "welcome",
-      query: [{ field: "type", op: "=", value: 0 }],
+      id: 'welcome',
+      query: [
+        { field: 'type', op: '=', value: 0 }
+      ]
     });
   }
 }
 ```
 
-### 判断多语言输入标识是否相等
+### 判断多语言输入标识是否相等 
 
 - equalI18n(i18n: string): boolean
   - i18n `string` 多语言输入标识
 
 ```html
 <nz-form-item formGroupName="name">
-  <nz-form-label bitFormLabelCol nzRequired> {{bit.l['name']}} </nz-form-label>
-  <ng-container *ngFor="let ID of bit.i18nContain">
-    <nz-form-control *ngIf="bit.equalI18n(ID)" bitFormControlCol nzHasFeedback>
-      <input
-        nz-input
-        [placeholder]="bit.l['namePlaceholder']"
-        [formControlName]="ID"
-      />
-    </nz-form-control>
-  </ng-container>
+    <nz-form-label bitFormLabelCol nzRequired>
+        {{bit.l['name']}}
+    </nz-form-label>
+    <ng-container *ngFor="let ID of bit.i18nContain">
+        <nz-form-control 
+            *ngIf="bit.equalI18n(ID)" 
+            bitFormControlCol 
+            nzHasFeedback>
+            <input 
+                nz-input 
+                [placeholder]="bit.l['namePlaceholder']"
+                [formControlName]="ID"
+            />
+        </nz-form-control>
+    </ng-container>
 </nz-form-item>
 ```
 
-### 重置多语言输入标识
+### 重置多语言输入标识 
 
 - resetI18n()
 
@@ -481,56 +508,52 @@ export class WelcomeComponent implements OnInit {
 this.bit.resetI18n();
 ```
 
-### 多语言输入 FormGroup 初始化
+### 多语言输入 FormGroup 初始化 
 
 - i18nGroup(options: I18nGroupOption): any
   - options `I18nGroupOptions` 多语言组件参数
-    - value `object` 默认值
-      - ${ID} `array` 属于某个多语言标识的数值
-    - validate `object` 同步验证器数组
-      - ${ID} `array` 属于某个多语言标识的同步验证器
-    - asyncValidate `object` 异步验证器数组
-      - ${ID} `array` 属于某个多语言标识的异步验证器
+      - value `object` 默认值
+        - ${ID} `array` 属于某个多语言标识的数值
+      - validate `object` 同步验证器数组
+        - ${ID} `array` 属于某个多语言标识的同步验证器
+      - asyncValidate `object` 异步验证器数组
+        - ${ID} `array` 属于某个多语言标识的异步验证器
 
 ```typescript
-import { Component, OnInit } from "@angular/core";
-import { BitService } from "ngx-bit";
-import {
-  AbstractControl,
-  AsyncValidatorFn,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
-import { of } from "rxjs";
+import { Component, OnInit } from '@angular/core';
+import { BitService } from 'ngx-bit';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { of } from 'rxjs';
 
 @Component({
-  selector: "app-welcome",
-  templateUrl: "./welcome.component.html",
-  styleUrls: ["./welcome.component.scss"],
+  selector: 'app-welcome',
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent implements OnInit {
   form: FormGroup;
 
-  constructor(public bit: BitService, private fb: FormBuilder) {}
+  constructor(
+    public bit: BitService,
+    private fb: FormBuilder
+  ) {
+  }
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      name: this.fb.group(
-        this.bit.i18nGroup({
-          value: {
-            zh_cn: "测试",
-            en_us: "TEST",
-          },
-          validate: {
-            zh_cn: [Validators.required],
-            en_us: [],
-          },
-          asyncValidate: {
-            en_us: [this.fun1],
-          },
-        })
-      ),
+      name: this.fb.group(this.bit.i18nGroup({
+        value: {
+          zh_cn: '测试',
+          en_us: 'TEST'
+        },
+        validate: {
+          zh_cn: [Validators.required],
+          en_us: []
+        },
+        asyncValidate: {
+          en_us: [this.fun1]
+        }
+      }))
     });
   }
 
@@ -958,121 +981,96 @@ support.unsubscribe();
 
 BitSwalService 是基于 sweetalert2 的提交反馈栏服务
 
-### 创建提示确认框
+### 新增返回反馈栏 
 
-- create(option: AlertOption): Observable<any>
-  - title `string` 标题
-  - content `string` 内容
-  - type `SweetAlertIcon` 图标类型
-  - width `number` 宽度
-  - okText `string` 确认按钮文字
-  - okDanger `boolean` 确认按钮是否为危险按钮
-  - okShow `boolean` 是否显示确认按钮
-  - cancelText `string` 取消按钮文字
-  - cancelShow `boolean` 是否显示取消按钮
-
-```typescript
-export class AclIndexComponent implements OnInit {
-  constructor(public bit: BitService, private swal: BitSwalService) {}
-
-  ngOnInit(): void {
-    this.swal
-      .create({
-        title: "This is a success message",
-        content: "some messages...some messages...",
-        type: "success",
-      })
-      .subscribe(() => {});
-  }
-}
-```
-
-### 新增返回反馈栏
-
-- addAlert(res: any, form: FormGroup, reset?: any): Observable<any>
+- addAlert(res: any, form: FormGroup, reset?: any, customize?: AlertCustomize): Observable< any >
   - res `any` 请求响应结果
   - form `FormGroup` 表单对象
   - reset `any` FormGroup 重置值
+  - customize `AlertCustomize` 自定义文本
+      - text `string` 提示文本
+      - error_text `string` 返回错误提示文本
+      - confirmButtonText `string` 确认按钮文本
+      - cancelButtonText `string` 取消按钮文本
 
 例如, 在新增操作下组件表单提交中使用, `status` 为 `true` 表示确认提示框
 
 ```typescript
-export class AclAddComponent implements OnInit {
-  constructor(
-    public bit: BitService,
-    private swal: BitSwalService,
-    private aclService: AclService
-  ) {}
+export class AdminAddComponent implements OnInit {
 
-  submit(data): void {
-    this.aclService
-      .add(data)
-      .pipe(
-        switchMap((res) =>
-          this.swal.addAlert(res, this.form, {
-            status: true,
-          })
-        )
-      )
-      .subscribe(() => {});
-  }
+    submit(data) {
+        this.adminService.add(data).pipe(
+            switchMap(res => this.swal.addAlert(res, this.form, {
+                status: true
+            }))
+        ).subscribe((status) => {
+            // status => true or false
+        });
+    }
 }
 ```
 
-### 修改返回反馈栏
+### 修改返回反馈栏 
 
-- editAlert(res: any): Observable<any>
+- editAlert(res: any, customize?: AlertCustomize): Observable< any >
   - res `any` 请求响应结果
+  - customize `AlertCustomize` 自定义文本
+      - text `string` 提示文本
+      - error_text `string` 返回错误提示文本
+      - confirmButtonText `string` 确认按钮文本
+      - cancelButtonText `string` 取消按钮文本
 
 例如, 在修改操作下组件表单提交中使用, `status` 为 `true` 表示确认提示框
 
 ```typescript
-export class AclEditComponent implements OnInit {
-  private id: any;
+export class AdminEditComponent implements OnInit {
+    private id: any;
 
-  constructor(
-    public bit: BitService,
-    private swal: BitSwalService,
-    private aclService: AclService
-  ) {}
-
-  submit(data): void {
-    Reflect.set(data, "id", this.id);
-    this.aclService
-      .edit(data)
-      .pipe(switchMap((res) => this.swal.editAlert(res)))
-      .subscribe((status) => {
-        if (status) {
-          this.getData();
-        }
-      });
-  }
+    submit(data) {
+        data.id = this.id;
+        this.adminService.edit(data).pipe(
+            switchMap(res => this.swal.editAlert(res))
+        ).subscribe((status) => {
+            // status => true or false
+        });
+    }
 }
 ```
 
-### 删除返回反馈栏
+### 删除返回反馈栏 
 
-- deleteAlert(observable: Observable<any>): Observable<any>
-  - observable `Observable< any >` 异步处理
+- deleteAlert(service: Observable< any >, customize?: AlertCustomize)
+  - service `Observable< any >` 删除请求对象
+  - customize `AlertCustomize` 自定义文本
+      - text `string` 提示文本
+      - confirmButtonText `string` 确认按钮文本
+      - cancelButtonText `string` 取消按钮文本
 
 例如, 在删除操作下使用, 订阅返回删除请求对象的响应值
 
 ```typescript
-export class AclIndexComponent implements OnInit {
-  constructor(
-    public bit: BitService,
-    private swal: BitSwalService,
-    private message: NzMessageService,
-    public aclService: AclService
-  ) {}
+export class AdminIndexComponent implements OnInit {
 
-  deleteData(id: any[]): void {
-    this.swal.deleteAlert(this.aclService.delete(id)).subscribe((res) => {
+  deleteData(id: any) {
+    this.swal.deleteAlert(this.adminService.delete(id)).subscribe(res => {
       if (!res.error) {
-        this.message.success(this.bit.l.deleteSuccess);
+        this.notification.success(
+          this.bit.l.operateSuccess,
+          this.bit.l.deleteSuccess
+        );
         this.getLists(true);
       } else {
-        this.message.error(this.bit.l.deleteError);
+        if (res.msg === 'error:self') {
+          this.notification.error(
+            this.bit.l.operateError,
+            this.bit.l.errorDeleteSelf
+          );
+        } else {
+          this.notification.error(
+            this.bit.l.operateError,
+            this.bit.l.deleteError
+          );
+        }
       }
     });
   }
