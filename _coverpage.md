@@ -3,5 +3,6 @@
 - [**ngx-bit-doc** 易用的 Angular 辅助层框架](/ngx-bit/) 
 - [**hyperf-api-case** 辅助 Hyperf 框架的工具集合](/hyperf/)
 - [**think-api-case** 辅助 ThinkPHP 框架的工具集合](/think/)
+- [**CMQ** 消息队列 NODE SDK](/cmq/)
 
 [GitHub](https://github.com/kainonly)
