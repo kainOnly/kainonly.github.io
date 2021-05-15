@@ -342,4 +342,47 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 </nz-alert>
 ```
 
----
+## bit-transport 上传提示组件
+
+对上传对象进行全局提示，并列表展示每个文件上传动态进度与信息
+
+`<bit-transport [action]="transport" (actionComplete)="transportComplete()"></bit-transport>`
+
+| 属性             | 说明     | 类型                                         | 默认值 |
+| ---------------- | -------- | -------------------------------------------- | ------ |
+| `action`         | 上传监听 | `(files: NzUploadFile[]) => Observable<any>` | -      |
+| `actionComplete` | 上传完毕 | ` EventEmitter<string>`                      | -      |
+
+例如：在上传页面中加入
+
+```html
+<bit-transport
+  [action]="transport"
+  (actionComplete)="transportComplete()"
+></bit-transport>
+```
+
+提供对应的函数
+
+```typescript
+export class MediaComponent {
+  transport = (files: NzUploadFile[]): Observable<any> => {
+    return this.mediaService.bulkAdd({
+      type_id: !this.ds.lists.search.type_id.value
+        ? 0
+        : this.ds.lists.search.type_id.value,
+      data: files.map((v) => ({
+        name: v.originFileObj.name,
+        url: Reflect.get(v.originFileObj, "key"),
+      })),
+    });
+  };
+
+  transportComplete(): void {
+    this.ds.fetchData(true);
+    this.getCount();
+  }
+}
+```
+
+> 详细使用可查看 van-skeleton/cms [Media 组件](https://github.com/van-skeleton/cms/tree/main/media)

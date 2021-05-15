@@ -48,4 +48,4 @@ ng add @angular/pwa
 npm install @ngx-pwa/local-storage sweetalert2 -S
 ```
 
-!> 组件整合中，待更新
+!> 新组件整合中，文档待更新... 也可查看 [项目案例](https://github.com/kainonly/ngx-bit)

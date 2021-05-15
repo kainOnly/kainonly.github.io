@@ -77,38 +77,6 @@ import("../common.language").then((result) => {
 });
 ```
 
-### 返回 QuerySchema
-
-- getQuerySchema(options: SearchOption[]): any[]
-  - options `SearchOption[]` 条件数组
-
-通过 `SearchOption[]` 组合成 Laravel Query 的条件数组（ThinkPHP 同样支持）
-
-```typescript
-let schema = getQuerySchema([{ field: "username", op: "=", value: "" }]);
-
-// console: []
-
-schema = getQuerySchema([
-  { field: "username", op: "=", value: "", exclude: [0, null] },
-]);
-
-// console: ['username', '=', '']]
-
-schema = getQuerySchema([{ field: "username", op: "=", value: "kain" }]);
-
-// console: [['username', '=', 'kain']]
-
-schema = getQuerySchema([
-  { field: "username", op: "=", value: null },
-  { field: "type", op: "=", value: 0 },
-  { field: "ids", op: "in", value: [] },
-  { field: "error", op: "=", value: {} },
-]);
-
-// console: []
-```
-
 ### 字符串模板
 
 - print(str: string, ...vars: any): string
@@ -149,8 +117,7 @@ ListByPage 提供了分页列表结构所需的基本条件，创建通常需要
 
 ```typescript
 import { Component, OnInit } from "@angular/core";
-import { ListByPage } from "ngx-bit/factory";
-import { BitService } from "ngx-bit";
+import { BitService, ListByPage } from "ngx-bit";
 
 @Component({
   selector: "app-welcome",
@@ -185,6 +152,42 @@ export class WelcomeComponent implements OnInit {
 | `indeterminate` | 分页列表是否不完全被选中 | `boolean`                           | `false`     |
 | `batch`         | 是否可进行批量处理       | `boolean`                           | `false`     |
 | `checkedNumber` | 分页列表被选中的数量     | `number`                            | `0`         |
+
+### 返回 QuerySchema
+
+- static getQuerySchema(options: SearchOption[]): any[]
+  - options `SearchOption[]` 条件数组
+
+通过 `SearchOption[]` 组合成 Laravel Query 的条件数组（ThinkPHP 同样支持）
+
+```typescript
+let schema = ListByPage.getQuerySchema([
+  { field: "username", op: "=", value: "" },
+]);
+
+// console: []
+
+schema = ListByPage.getQuerySchema([
+  { field: "username", op: "=", value: "", exclude: [0, null] },
+]);
+
+// console: ['username', '=', '']]
+
+schema = ListByPage.getQuerySchema([
+  { field: "username", op: "=", value: "kain" },
+]);
+
+// console: [['username', '=', 'kain']]
+
+schema = ListByPage.getQuerySchema([
+  { field: "username", op: "=", value: null },
+  { field: "type", op: "=", value: 0 },
+  { field: "ids", op: "in", value: [] },
+  { field: "error", op: "=", value: {} },
+]);
+
+// console: []
+```
 
 ### 设置分页列表数据
 
@@ -385,7 +388,7 @@ this.lists.getPage().subscribe((index) => {
 this.lists.persistence();
 ```
 
-### 返回查询定义数组 
+### 返回查询定义数组
 
 - toQuery(): SearchOption[]
 

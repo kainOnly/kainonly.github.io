@@ -57,7 +57,7 @@ export class AppModule {
 }
 ```
 
-- 新增组件 `bit-transport`，用于上传状态提示，详细使用可查看 van-skeleton/cms [Media 组件](https://github.com/van-skeleton/cms/tree/main/media)
+- 新增组件 `bit-transport` 上传状态提示，详细使用可查看 van-skeleton/cms [Media 组件](https://github.com/van-skeleton/cms/tree/main/media)
 
 ### Breaking Changes
 
