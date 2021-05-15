@@ -1,5 +1,70 @@
 # Change Log
 
+## 11.4.0
+
+### New Features
+
+- 重新启用 `bit.module.ts` 精简配置初始化
+
+例如：原方式需要引入所有服务的依赖
+
+```typescript
+const bitConfig = () => {
+  const env = environment.bit;
+  const service = new BitConfigService();
+  return merge.recursive(service, env);
+};
+
+@NgModule({
+    ...
+  providers: [
+    NzIconService,
+    BitService,
+    BitHttpService,
+    BitEventsService,
+    BitSupportService,
+    BitSwalService,
+    { provide: BitConfigService, useFactory: bitConfig },
+  ],
+    ...
+})
+export class AppModule {
+  constructor(config: BitConfigService, nzIconService: NzIconService) {
+    if (config.url.icon) {
+      nzIconService.changeAssetsSource(config.url.icon);
+    }
+  }
+}
+```
+
+现在可以重新引入 `BitModule.forRoot(config: BitConfig)` 做初始化达到相同效果
+
+```typescript
+const bitConfig = () => {
+  const env = environment.bit;
+  const service = new BitConfigService();
+  return merge.recursive(service, env);
+};
+
+@NgModule({
+    ...
+  imports: [
+    BitModule.forRoot(environment.bit),
+  ],
+    ...
+})
+export class AppModule {
+}
+```
+
+- 新增组件 `bit-transport`，用于上传状态提示，详细使用可查看 van-skeleton/cms [Media 组件](https://github.com/van-skeleton/cms/tree/main/media)
+
+### Breaking Changes
+
+- 废弃 `ngx-bit/types` 并迁移至 `ngx-bit` 下导出
+- 废弃 `ngx-bit/factory` 并迁移至 `ngx-bit` 下导出
+- 废弃 `ngx-bit/operates` 中的 `getQuerySchema(options: SearchOption[]): any[]` ，将其并入 `ListByPage` 类的静态函数
+
 ## 11.3.0
 
 新增 `bit-transport` 批量上传按钮
