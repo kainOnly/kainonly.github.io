@@ -323,16 +323,11 @@ bit.back();
 
 ```typescript
 @Component({
-  selector: 'app-root',
-  template: `
-    <router-outlet></router-outlet>
-  `
+  selector: "app-root",
+  template: ` <router-outlet></router-outlet> `,
 })
 export class AppComponent implements OnInit {
-  constructor(
-    private bit: BitService,
-  ) {
-  }
+  constructor(private bit: BitService) {}
 
   ngOnInit(): void {
     this.bit.setupLocale();
@@ -481,7 +476,7 @@ export class WelcomeComponent implements OnInit {
 ### 解析国际化数据
 
 - i18nParse(text: `string`): `any`
-  - text `string` JSON字符串
+  - text `string` JSON 字符串
 
 ### 生产分页数据对象
 
@@ -518,7 +513,73 @@ export class WelcomeComponent implements OnInit {
 
 ## 请求处理 BitHttpService
 
+BitHttpService 请求处理是对 `HttpClient` 的封装，以下示例中 `http` 为 `BitHttpService` 服务的注入命名
 
+### 基本属性
+
+| 属性              | 说明               | 类型      | 默认值                                              |
+| ----------------- | ------------------ | --------- | --------------------------------------------------- |
+| `baseUri`         | 基础路径(readonly) | `string`  | `bitConfig.url.api + bitConfig.api.namespace + '/'` |
+| `withCredentials` | 是否同源(readonly) | `boolean` | `bitConfig.api.withCredentials`                     |
+
+### 设置请求拦截器
+
+- setupInterceptor(operate: `OperatorFunction<any, any>`): `void`
+  - operate `OperatorFunction<any, any>` RxJS 操作
+
+```typescript
+@Component({
+  selector: "app-root",
+  template: ` <router-outlet></router-outlet> `,
+})
+export class AppComponent implements OnInit {
+  constructor(
+    private bit: BitService,
+    private http: BitHttpService,
+    private notification: NzNotificationService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.bit.setupLocale();
+    this.bit.registerLocales(import("./app.language"));
+    this.http.setupInterceptor(
+      map((res) => {
+        if (res.error) {
+          switch (res.msg) {
+            case "refresh token verification expired":
+              this.notification.warning(
+                this.bit.l.auth,
+                this.bit.l.authInvalid,
+                {
+                  nzKey: "authInvalid",
+                }
+              );
+              this.router.navigateByUrl("/login");
+              break;
+          }
+        }
+        return res;
+      })
+    );
+  }
+}
+```
+
+### 创建请求对象
+
+- req(url: `string`, body: `any` = {}, method = 'post'): `Observable<any>`
+  - url `string` 请求路由
+  - body `any` 发送数据
+  - method `string` 请求类型, 默认为 `post` 请求
+  - Return `Observable<any>`
+
+```typescript
+// 例如：请求资源接口
+http.req("main/resource").subscribe((res) => {
+  console.log(res);
+});
+```
 
 ## CURD 适配 BitCurdService
 
