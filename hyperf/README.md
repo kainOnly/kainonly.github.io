@@ -6,7 +6,7 @@
 
 在线案例，https://console.kainonly.com
 
-- 用户 `super`
+- 用户 `kain`
 - 密码 `pass@VAN1234`
 
 首选需要创建一个 hyperf 官方的骨架项目
