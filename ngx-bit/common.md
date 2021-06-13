@@ -583,4 +583,445 @@ http.req("main/resource").subscribe((res) => {
 
 ## CURD 适配 BitCurdService
 
+BitCurdService 是一个抽象定义服务，它可以快捷对接后端 CURD 接口，你可以使用 BitCurdCommonService 直接配套已有的后端组件，也可以继承它重写符合的服务
+
+### 获取查询语句
+
+- getQuerySchema(options: `SearchOption[]`): `any[]`
+  - options `SearchOption[]` 查询条件
+
+通过 `SearchOption[]` 组合成条件数组
+
+```typescript
+let schema = getQuerySchema([{ field: "username", op: "=", value: "" }]);
+
+// console: []
+
+schema = getQuerySchema([
+  { field: "username", op: "=", value: "", exclude: [0, null] },
+]);
+
+// console: ['username', '=', '']]
+
+schema = getQuerySchema([{ field: "username", op: "=", value: "kain" }]);
+
+// console: [['username', '=', 'kain']]
+
+schema = getQuerySchema([
+  { field: "username", op: "=", value: null },
+  { field: "type", op: "=", value: 0 },
+  { field: "ids", op: "in", value: [] },
+  { field: "error", op: "=", value: {} },
+]);
+
+// console: []
+```
+
+### 获取单条数据请求
+
+- get(model: `string`, condition: `number` | `string` | `SearchOption[]`, order?: `OrderOption`, path?: `string`): `Observable<any>`
+  - model `string` 模块名称
+  - condition `number | string | SearchOptions[]` 查询条件，当类型为 `number` 或 `string` 是将作为主键返回后端，若为 `SearchOptions[]` 则会组合成 Laravel Query 的条件数组以 `where` 返回后端（ThinkPHP 同样支持）
+  - order `OrderOption` 排序条件
+  - path `string` 自定义路径
+
+```typescript
+// 主键查询
+curd.get(this.model, id);
+// 条件查询
+curd.get(this.model, [{ field: "username", op: "=", value: "kain" }]);
+```
+
+### 获取分页数据请求
+
+- lists(model: `string`, factory: `ListByPage`, option: `ListsOption`, path?: `string`): `Observable<any>`
+  - model `string` 模块名称
+  - factory `ListByPage` 分页列表对象
+  - option `ListsOption`
+    - refresh `boolean` 刷新，即重置分页
+    - persistence `boolean` 持久存储，即记录分页历史
+  - path `string` 自定义路径
+
+```typescript
+const search = bit.listByPage({
+  id: "admin-index",
+  query: [{ field: "sex", op: "=", value: 1 }],
+});
+
+curd.lists("admin", search, {
+  refresh: true,
+  persistence: true,
+});
+```
+
+### 获取原始列表数据请求
+
+- originLists(model: `string`, condition: `SearchOption[]` = [], order?: `OrderOption`, path?: `string`): `Observable<any>`
+  - model `string` 模块名称
+  - condition `SearchOptions[]` 条件数组，组合成 Laravel Query 的条件数组以 `where` 返回后端（ThinkPHP 同样支持）
+  - order `OrderOption` 排序条件
+  - path `string` 自定义路径
+
+```typescript
+curd.originLists("admin");
+```
+
+### 新增数据请求
+
+- add(model: `string`, data: `any`, path?: `string`): `Observable<any>`
+  - model `string` 模块名称
+  - data `any` body 数据
+  - path `string` 自定义路径
+
+```typescript
+const data = {
+  username: "kain",
+  email: "zhangtqx@vip.qq.com",
+};
+
+curd.add("admin", data);
+```
+
+### 修改数据请求
+
+- edit(model: `string`, data: `any`, condition?: `SearchOptions[]`, path?: `string`): `Observable<any>`
+  - model `string` 模块名称
+  - data `any` body 数据
+  - condition `SearchOptions[]` 条件数组，组合成 Laravel Query 的条件数组以 `where` 返回后端（ThinkPHP 同样支持）
+  - path `string` 自定义路径
+
+```typescript
+const data = {
+  id: 1,
+  username: "kain",
+  email: "kainonly@qq.com",
+};
+
+curd.edit("admin", data);
+
+// 当没有主键时，需要设置 condition
+const condition = [{ field: "username", op: "=", value: "kain" }];
+const data = {
+  email: "kainonly@qq.com",
+};
+
+curd.edit("admin", data, condition);
+```
+
+### 状态切换请求
+
+- status(model: `string`, data: `any`, field = 'status', extra?: `any`, path?: `string`): `Observable<any>`
+  - model `string` 模块名称
+  - data `any` body 数据
+  - field `string` 状态字段，默认 `status`
+  - extra `any` 扩展字段
+  - path `string` 自定义路径
+
+状态将以相反的数值提交给后端
+
+```typescript
+const data = {
+  id: 1,
+  status: true,
+};
+// 此时将为后端传递的 status 为 false
+curd.status("admin", data);
+
+// 如果状态字段为线上 online 可以这样设定
+const data = {
+  id: 1,
+  online: true,
+};
+
+curd.status("admin", data, "online");
+
+// 假设它必须要增加一段关键的字段，则可以
+const data = {
+  id: 1,
+  online: true,
+};
+// 此时 {key:'a123'} 将合并入 body 内提交后端
+curd.status("admin", data, "online", {
+  key: "a123",
+});
+```
+
+### 删除数据请求
+
+- delete(model: `string`, id?:` any[]`, condition?: `SearchOption[]`, path?: `string`): `Observable<any>`
+  - model `string` 模块名称
+  - id `any[]` 主键数组
+  - condition `SearchOptions[]` 条件数组，组合成 Laravel Query 的条件数组以 `where` 返回后端（ThinkPHP 同样支持）
+  - path `string` 自定义路径
+
+`id` 与 `condition` 两者必须选一种
+
+```typescript
+// 使用主键数组删除
+curd.delete("admin", [1]);
+// 使用条件数组删除
+curd.delete("admin", undefined, [
+  { field: "username", op: "=", value: "kain" },
+]);
+```
+
 ## 分页列表 ListByPage
+
+ListByPage 提供了分页列表结构所需的基本条件，创建通常需要 `BitService` 协助，例如：
+
+```typescript
+import { Component, OnInit } from "@angular/core";
+import { BitService, ListByPage } from "ngx-bit";
+
+@Component({
+  selector: "app-welcome",
+  templateUrl: "./welcome.component.html",
+  styleUrls: ["./welcome.component.scss"],
+})
+export class WelcomeComponent implements OnInit {
+  lists: ListByPage;
+
+  constructor(public bit: BitService) {}
+
+  ngOnInit(): void {
+    this.lists = this.bit.listByPage({
+      id: "index",
+      limit: 10,
+      query: [{ field: "username", op: "=", value: "" }],
+    });
+  }
+}
+```
+
+### 基本属性
+
+| 属性            | 说明                     | 类型                                | 默认值           |
+| --------------- | ------------------------ | ----------------------------------- | ---------------- |
+| `ready`         | 完成初始化               | `AsyncSubject<any>`                 | `AsyncSubject()` |
+| `search`        | 搜索字段定义             | `{ [field: string]: SearchOption }` | `{}`             |
+| `order`         | 排序字段定义             | `OrderOption`                       | `undefined`      |
+| `data`          | 分页列表数据             | `any[]`                             | `[]`             |
+| `loading`       | 分页列表加载状态         | `boolean`                           | `true`           |
+| `limit`         | 分页记录数量             | `number`                            | `0`              |
+| `totals`        | 分页总数                 | `number`                            | `0`              |
+| `index`         | 分页页码                 | `number`                            | `1`              |
+| `checked`       | 分页列表是否全被选中     | `boolean`                           | `false`          |
+| `indeterminate` | 分页列表是否不完全被选中 | `boolean`                           | `false`          |
+| `batch`         | 是否可进行批量处理       | `boolean`                           | `false`          |
+| `checkedNumber` | 分页列表被选中的数量     | `number`                            | `0`              |
+
+### 设置数据
+
+- setData(data: `any[]`): `void`
+  - data `any[]` 数据源
+
+当分页列表请求返回时设置，`getLists` 因酌情处理，这里 `event` 代表分页页码，可直接供 Table 组件使用
+
+```typescript
+getLists(refresh = false, event?:any) {
+    service.lists(
+        this.lists,
+        refresh,
+        event !== undefined
+    ).subscribe(data => {
+        this.lists.setData(data);
+    });
+}
+```
+
+### 判断是否包含该字段的搜索条件
+
+- hasSearch(field: `string`): `void`
+  - field `string` 字段名称
+
+通常这被使用在模板上
+
+```html
+<nz-space-item *ngIf="lists.hasSearch('username')">
+  <nz-input-group nzSearch [nzAddOnAfter]="nzAddOnAfter" style="width: 320px">
+    <input
+      nz-input
+      [bitSearchStart]="lists"
+      [placeholder]="bit.l['search']"
+      [(ngModel)]="lists.search['username'].value"
+      (after)="getLists(true)"
+    />
+  </nz-input-group>
+  <ng-template #nzAddOnAfter>
+    <button
+      nzSearch
+      nz-button
+      nzType="primary"
+      [bitSearchStart]="lists"
+      (after)="getLists(true)"
+    >
+      <i nz-icon nzType="search"></i>
+    </button>
+  </ng-template>
+</nz-space-item>
+```
+
+### 主动触发搜索变动之后
+
+- afterSearch(): `Observable<any>`
+
+在不是 `bit-search-change` 与 `bit-search-start` 指令触发的情况下，就需要主动执行：
+
+```typescript
+this.lists.afterSearch().subscribe((status) => {
+  // ...
+});
+```
+
+### 主动触发搜索清空之后
+
+- clearSearch(reset: `any` = {}): `Observable<any>`
+  - reset `any` 重置的数值
+  - Return `Observable<any>`
+
+在不是 `bit-search-clear` 指令触发的情况下，就需要主动执行：
+
+```typescript
+this.lists
+  .clearSearch({
+    username: "",
+  })
+  .subscribe((status) => {
+    // ...
+  });
+```
+
+### 更新分页列表状态
+
+- refreshStatus(): `void`
+
+即是否全部选中、不完全选中、是否可执行批量与选中数量，通常列表数据中发生变化需主动执行
+
+```html
+<nz-table
+  #table
+  [nzData]="lists.data"
+  [nzLoading]="lists.loading"
+  [nzTotal]="lists.totals"
+  [nzPageSize]="lists.limit"
+  [nzFrontPagination]="false"
+  [(nzPageIndex)]="lists.index"
+  (nzPageIndexChange)="getLists()"
+  nzSize="middle"
+>
+  <thead>
+    <tr>
+      <th
+        nzShowCheckbox
+        nzWidth="65px"
+        [(nzChecked)]="lists.checked"
+        [nzIndeterminate]="lists.indeterminate"
+        (nzCheckedChange)="lists.checkedAll($event)"
+      ></th>
+      <th>{{bit.l['username']}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of table.data">
+      <!-- 这里执行 -->
+      <td
+        nzShowCheckbox
+        [(nzChecked)]="data.checked"
+        (nzCheckedChange)="lists.refreshStatus()"
+      ></td>
+      <td>{{data.username}}</td>
+    </tr>
+  </tbody>
+</nz-table>
+```
+
+### 更改所有分页列表选中状态
+
+- checkedAll(event: `boolean`): `void`
+  - event `boolean` 选中状态
+
+可附加在主选择器的状态监听中
+
+```html
+<nz-table
+  #table
+  [nzData]="lists.data"
+  [nzLoading]="lists.loading"
+  [nzTotal]="lists.totals"
+  [nzPageSize]="lists.limit"
+  [nzFrontPagination]="false"
+  [(nzPageIndex)]="lists.index"
+  (nzPageIndexChange)="getLists()"
+  nzSize="middle"
+>
+  <thead>
+    <tr>
+      <!-- 这里执行 -->
+      <th
+        nzShowCheckbox
+        nzWidth="65px"
+        [(nzChecked)]="lists.checked"
+        [nzIndeterminate]="lists.indeterminate"
+        (nzCheckedChange)="lists.checkedAll($event)"
+      ></th>
+      <th>{{bit.l['username']}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of table.data">
+      <td
+        nzShowCheckbox
+        [(nzChecked)]="data.checked"
+        (nzCheckedChange)="lists.refreshStatus()"
+      ></td>
+      <td>{{data.username}}</td>
+    </tr>
+  </tbody>
+</nz-table>
+```
+
+### 返回所有被选中的列表
+
+- getChecked(): `any[]`
+
+```typescript
+const checkedLists = this.lists.getChecked();
+```
+
+### 获取当前的页码
+
+- getPage(): `Observable<any>`
+
+```typescript
+this.lists.getPage().subscribe((index) => {
+  // index
+});
+```
+
+### 主动执行分页页码的持久化记录
+
+- persistence(): `void`
+
+```typescript
+this.lists.persistence();
+```
+
+### 返回查询定义数组
+
+- toQuery(): `SearchOption[]`
+
+```typescript
+const search = this.lists.toQuery();
+```
+
+### 返回查询语句
+
+- toQuerySchema(): `any[]`
+
+将 `search` 组合成 Laravel Query 的条件数组（ThinkPHP 同样支持）
+
+```typescript
+const schema = this.lists.toQuerySchema();
+
+// console: []
+```
