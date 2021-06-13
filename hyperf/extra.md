@@ -1040,27 +1040,28 @@ class IndexController
   - jti `string` JSON Web Token ID
   - ack `string` Token ID 验证码
 
-### User Lock 用户锁定
+### Lock 锁定
 
-`*适用于用户登录时的锁定支持*`
+`*适用于用户名或IP等验证锁定*`
 
-#### 锁定用户清零
+#### 锁定清零
 
-- remove(string $username): void
-  - username `string` 用户名
+- remove(string $name): void
+  - name `string` 索引
 
-#### 锁定验证，固定上限 5 次
+#### 锁定验证
 
-- check(string $username): bool
-  - username `string` 用户名
+- check(string $name, int $limit = 5): bool
+  - name `string` 索引
+  - limit `int` 固定上限
   - Return `bool`
 
 #### 锁定自增
 
-- inc(string $username): void
-  - username `string` 用户名
+- inc(string $name): void
+  - name `string` 索引
 
 #### 锁定延长，延长锁定 15 分钟
 
-- lock(string $username): void
-  - username `string` 用户名
+- lock(string $name): void
+  - name `string` 索引
