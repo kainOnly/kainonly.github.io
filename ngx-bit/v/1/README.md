@@ -1,10 +1,6 @@
 # NGX BIT
 
 [![npm (tag)](https://img.shields.io/npm/v/ngx-bit/v6-lts.svg?style=flat-square)](https://ngx-bit.kainonly.com/v/1)
-[![Downloads](https://img.shields.io/npm/dm/ngx-bit.svg?style=flat-square)](https://www.npmjs.com/package/ngx-bit)
-[![npm](https://img.shields.io/npm/dt/ngx-bit.svg?style=flat-square)](https://www.npmjs.com/package/ngx-bit)
-[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-blue.svg?style=flat-square)](https://www.typescriptlang.org/)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/kainonly/ngx-bit.js/master/LICENSE)
 
 请确认 `@angular/cli` 版本是否在 `v6-lts`, 如果不是请先移除原 `@angular/cli`, 再使用 `npm install @angular/cli@v6-lts -g` 安装
 

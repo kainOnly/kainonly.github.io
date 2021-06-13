@@ -1,13 +1,19 @@
 # NGX-BIT
 
-易用的 Angular 辅助层框架
+A flexible NG-ZORRO helper library
 
-[![Github Actions](https://img.shields.io/github/workflow/status/kainonly/ngx-bit/test?style=flat-square)](https://github.com/kainonly/ngx-bit/actions)
+[![Github Actions](https://img.shields.io/github/workflow/status/kainonly/ngx-bit/bit_test?style=flat-square)](https://github.com/kainonly/ngx-bit/actions)
 [![Coveralls github](https://img.shields.io/coveralls/github/kainonly/ngx-bit.svg?style=flat-square)](https://coveralls.io/github/kainonly/ngx-bit)
 [![npm](https://img.shields.io/npm/v/ngx-bit.svg?style=flat-square)](https://ngx-bit.kainonly.com)
 [![Downloads](https://img.shields.io/npm/dm/ngx-bit.svg?style=flat-square)](https://www.npmjs.com/package/ngx-bit)
 [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-blue.svg?style=flat-square)](https://www.typescriptlang.org/)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/kainonly/ngx-bit.js/master/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/kainonly/ngx-bit?style=flat-square)](https://raw.githubusercontent.com/kainonly/ngx-bit.js/main/LICENSE)
+
+## 简介
+
+**NGX-BIT** 是一个辅助 NG-ZORRO 的助手，目标是帮助项目解决前后端统一开发。如果你的团队正使用 Hyperf、ThinkPHP、Gin，那它会是个值得尝试的工具。`Bit` 名称只是个巧合，本意是希望轻巧方便，因为在 Angular （beta~4） 期间自研的组件断层且影响了项目迭代，恰好这个时间节点发现了 `NG-ZORRO` 并且一直从 `0.7.x` 同步更新至今。
+
+## 快速开始
 
 初始化案例，创建本地项目 bit-example（仅展示前端必须的正确配置，不启动后端则不能正常加载）
 
@@ -28,23 +34,3 @@ ng add ng-zorro-antd
 # ? Choose your locale code: zh_CN
 # ? Choose template to create project: blank
 ```
-
-然后安装辅助框架 ngx-bit
-
-```shell
-ng add ngx-bit
-```
-
-还可以设置为 PWA 项目
-
-```shell
-ng add @angular/pwa
-```
-
-按需安装第三方组件，示例用到 `BitSupportService` `BitSwalService`
-
-```shell
-npm install @ngx-pwa/local-storage sweetalert2 -S
-```
-
-!> 新组件整合中，文档待更新... 也可查看 [项目案例](https://github.com/kainonly/ngx-bit)
