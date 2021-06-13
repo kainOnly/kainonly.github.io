@@ -11,3 +11,4 @@
 - 提示确认 `BitSwalService` 变更为可选的**提示框**模块 `BitSwalModule` 且使用远程懒加载依赖库
 - 迁移上传组件 `bit-transport` 至 `@van/framework`
 - 页头填充组件 `bit-header` 整合至可选的**平行路由**模块 `BitRouterModule`
+- 操作库废弃**生产语言包工具** `factoryLocales` 新增**脚本懒加载** `loadScript`

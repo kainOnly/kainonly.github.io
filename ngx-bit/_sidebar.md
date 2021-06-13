@@ -1,4 +1,7 @@
 - [**NGX BIT**](./)
 - [公共](./common)
 - [组件](./component)
+- [指令](./directive)
+- [管道](./pipe)
+- [其他](./other)
 - [更新日志](./change_log)

@@ -1,6 +1,8 @@
-# 管道
+# 其他
 
-## Empty 空判断
+## 管道
+
+### Empty 空判断
 
 通过管道判断数值是否为空
 
@@ -36,9 +38,7 @@ export class WelcomeComponent implements OnInit {
 </div>
 ```
 
----
-
-## Split 字符串分割为数组
+### Split 字符串分割为数组
 
 通过管道使用字符串分割为数组
 
@@ -75,9 +75,7 @@ export class WelcomeComponent implements OnInit {
 </ng-container>
 ```
 
----
-
-## Join 数组拼接为字符串
+### Join 数组拼接为字符串
 
 通过管道使用数组拼接为字符串
 
@@ -114,9 +112,7 @@ export class WelcomeComponent implements OnInit {
 <!-- display nodejs+php+golang+java+python -->
 ```
 
----
-
-## object 转换对象
+### object 转换对象
 
 通过管道转换对象，目标可以是 JSON 字符串或对象，也可作用语言包显示
 
@@ -188,9 +184,7 @@ export class WelcomeComponent implements OnInit {
 </ng-container>
 ```
 
----
-
-## Print 字符串模板
+### Print 字符串模板
 
 通过管道打印字符串模板，可适用于多语言模板
 
@@ -226,9 +220,7 @@ export class WelcomeComponent implements OnInit {
 <!-- display ng-zorro-antd 是遵循 Ant Design 设计规范的 Angular UI 组件库 -->
 ```
 
----
-
-## Privacy 字符串脱敏
+### Privacy 字符串脱敏
 
 通过管道对字符串脱敏
 

@@ -1,6 +1,4 @@
-# 指令
-
-## bitBack 返回上一级
+## bitBack 导航返回
 
 可以在应用中返回链接
 
@@ -12,9 +10,7 @@
 <button nz-button type="button" bitBack>返回上一级</button>
 ```
 
----
-
-## bitHistory 历史导航
+## bitHistory 导航历史
 
 加载被历史缓存的参数导航
 
@@ -24,15 +20,13 @@
 | -------------- | ------------ | -------- | ------ |
 | `[bitHistory]` | 跨级路由名称 | `string` | -      |
 
-假设导航至/{team-index}/1，再从/{team-index}/1 导航至/{team-index}/1/services/T100
+假设导航至/team-index/1，再从/team-index/1 导航至/team-index/1/services/T100
 
 ```html
 <button nz-button type="button" bitHistory="team-index">历史导航</button>
 ```
 
-此时执行 button 将跳转至/{team-index}/1
-
----
+此时执行 button 将跳转至/team-index/1
 
 ## bitCol 栅格标识
 
@@ -105,8 +99,6 @@ const col = {
 </nz-form-item>
 ```
 
----
-
 ## bitFormSubmit 表单提交
 
 协助应用表单提交时自动进行 controls 的 `markAsDirty` `updateValueAndValidity`
@@ -171,8 +163,6 @@ export class WelcomeComponent implements OnInit {
 
 当表单提交时将触发 `submit($event)`
 
----
-
 ## bitI18nUpdate 多语言输入更新
 
 协助应用表单的多语言输入组件更新状态，为 `bit-i18n-tooltip` 多语言提示提供支持
@@ -228,8 +218,6 @@ export class WelcomeComponent implements OnInit {
 </nz-card>
 ```
 
----
-
 ## bitOpen 路由导航
 
 `navigate` 路由导航的扩展，为跨级导航作为基础持久记录其路由参数
@@ -262,8 +250,6 @@ export class WelcomeComponent implements OnInit {
   导航附加 extras
 </button>
 ```
-
----
 
 ## bitSearchChange 搜索监听
 
@@ -315,8 +301,6 @@ class TestComponent implements OnInit {
 }
 ```
 
----
-
 ## bitSearchStart 搜索触发
 
 为分页列表提供搜索触发功能，触发事件为 `click` 与 `keydown.enter`
@@ -358,8 +342,6 @@ class TestComponent implements OnInit {
   after() {}
 }
 ```
-
----
 
 ## bitSearchClear 搜索清除
 
@@ -412,8 +394,6 @@ class TestComponent implements OnInit {
 }
 ```
 
----
-
 ## bitStatusChange 状态切换
 
 为开关选择器提供状态请求切换功能
@@ -451,8 +431,6 @@ class TestComponent {
   statusFeedback(event) {}
 }
 ```
-
----
 
 ## bitUpload 上传
 

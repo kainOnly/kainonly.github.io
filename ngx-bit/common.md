@@ -1,5 +1,3 @@
-# 公共模块
-
 ## BitConfig 统一配置
 
 BitConfig 是助手库的全局配置服务，可以将它增加至 `environment` 内管理，例如：
@@ -292,11 +290,11 @@ bit.open(["admin-edit", 1]);
 路由历史导航，加载被历史缓存的参数导航，例如：
 
 ```typescript
-// 假设导航至/{team-index}/1
+// 假设导航至/team-index/1
 bit.open(["team-index", 1]);
-// 再从/{team-index}/1导航至/{team-index}/1/services/T100
+// 再从/team-index/1导航至/team-index/1/services/T100
 bit.open(["team-index", 1, "services", "T100"]);
-// 此时使用history，可导航至/{team-index}/1
+// 此时使用history，可导航至/team-index/1
 bit.history("team-index");
 ```
 
@@ -307,11 +305,11 @@ bit.history("team-index");
 返回上一级，并重置 `i18n` 多语言输入标识
 
 ```typescript
-// 导航至/{admin-index}
+// 导航至/admin-index
 bit.open(["admin-index"]);
-// 再从/{admin-index}导航至/{admin-edit}/1
+// 再从/admin-index导航至/admin-edit/1
 bit.open(["admin-edit", 1]);
-// 返回至/{admin-index}
+// 返回至/admin-index
 bit.back();
 ```
 
