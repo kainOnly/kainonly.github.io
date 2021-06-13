@@ -1,6 +1,6 @@
 # 公共模块
 
-## 统一配置 BitConfig
+## BitConfig 统一配置
 
 BitConfig 是助手库的全局配置服务，可以将它增加至 `environment` 内管理，例如：
 
@@ -207,7 +207,7 @@ const i18n = {
 };
 ```
 
-## 助手工具 BitService
+## BitService 助手工具
 
 BitService 是助手工具，以下示例中 `bit` 为 `BitService` 服务的注入命名
 
@@ -511,7 +511,7 @@ export class WelcomeComponent implements OnInit {
 
 - clear(): `void`
 
-## 请求处理 BitHttpService
+## BitHttpService 请求处理
 
 BitHttpService 请求处理是对 `HttpClient` 的封装，以下示例中 `http` 为 `BitHttpService` 服务的注入命名
 
@@ -581,7 +581,7 @@ http.req("main/resource").subscribe((res) => {
 });
 ```
 
-## CURD 适配 BitCurdService
+## BitCurdService CURD 适配
 
 BitCurdService 是一个抽象定义服务，它可以快捷对接后端 CURD 接口，你可以使用 BitCurdCommonService 直接配套已有的后端组件，也可以继承它重写符合的服务
 
@@ -765,7 +765,7 @@ curd.delete("admin", undefined, [
 ]);
 ```
 
-## 分页列表 ListByPage
+## ListByPage 分页列表 
 
 ListByPage 提供了分页列表结构所需的基本条件，创建通常需要 `BitService` 协助，例如：
 

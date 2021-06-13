@@ -1,3 +1,4 @@
 - [**NGX BIT**](./)
-- [公共模块](./common)
+- [公共](./common)
+- [组件](./component)
 - [更新日志](./change_log)

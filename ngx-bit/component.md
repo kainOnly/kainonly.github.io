@@ -195,8 +195,6 @@
 
 ---
 
-## bit-header 页头填充
-
 为路由页面提供页头内容的信息填充
 
 `<bit-header back subTitle="subTitle">content</bit-header>`
@@ -342,7 +340,6 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 </nz-alert>
 ```
 
-## bit-transport 上传提示组件
 
 对上传对象进行全局提示，并列表展示每个文件上传动态进度与信息
 
